@@ -15,6 +15,11 @@
         <p class="mt-2 text-gray-500">
           Únete a Inmobiliaria & Constructora Santander
         </p>
+
+        <!-- Mensaje de Marketing si viene del Cotizador -->
+        <div v-if="isRedirectFromCotizador" class="mt-4 bg-primary/10 border border-primary/20 text-primary p-3 rounded-xl text-sm font-bold text-left flex gap-2">
+          <span>✨</span> Crea tu cuenta gratis en 1 minuto para acceder al Cotizador y guardar tu historial.
+        </div>
       </div>
       <form class="space-y-5" @submit.prevent="handleRegister">
         <div class="space-y-4">
@@ -52,15 +57,15 @@
       
       <div class="mt-6 text-center text-sm">
         <span class="text-gray-500">¿Ya tienes cuenta?</span>
-        <router-link to="/login" class="font-bold text-primary hover:text-secondary ml-1 transition-colors">Inicia sesión aquí</router-link>
+        <router-link :to="{ path: '/login', query: { redirect: route.query.redirect } }" class="font-bold text-primary hover:text-secondary ml-1 transition-colors">Inicia sesión aquí</router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { reactive, ref, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '../store/auth'
 
 const form = reactive({
@@ -75,7 +80,12 @@ const errorMsg = ref('')
 const loading = ref(false)
 
 const router = useRouter()
+const route = useRoute()
 const authStore = useAuthStore()
+
+const isRedirectFromCotizador = computed(() => {
+  return route.query.redirect === '/dashboard/cotizador'
+})
 
 const handleRegister = async () => {
   errorMsg.value = ''
@@ -100,7 +110,8 @@ const handleRegister = async () => {
     if (authStore.isAdmin) {
       router.push('/dashboard/admin')
     } else {
-      router.push('/dashboard/user')
+      const redirectPath = route.query.redirect || "/dashboard/user"
+      router.push(redirectPath)
     }
   } catch (error) {
     errorMsg.value = error

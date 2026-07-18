@@ -11,6 +11,11 @@
         <h2>Bienvenido de nuevo</h2>
         <p class="subtitle">Inicia sesión en tu cuenta</p>
 
+        <!-- Mensaje de Marketing si viene del Cotizador -->
+        <div v-if="isRedirectFromCotizador" class="alert-marketing">
+          <span class="icon">✨</span> ¡Crea una cuenta o inicia sesión gratis para usar nuestro Cotizador Inteligente y guardar tu historial!
+        </div>
+
         <!-- ERROR -->
         <div v-if="errorMsg" class="alert-error">
           <span class="icon">⚠️</span> {{ errorMsg }}
@@ -39,7 +44,7 @@
 
         <p class="footer-text">
           ¿No tienes cuenta?
-          <router-link to="/registro" class="link">Regístrate aquí</router-link>
+          <router-link :to="{ path: '/registro', query: { redirect: route.query.redirect } }" class="link">Regístrate aquí</router-link>
         </p>
       </div>
     </div>
@@ -47,12 +52,17 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
-import { useRouter } from "vue-router"
+import { ref, computed } from "vue"
+import { useRouter, useRoute } from "vue-router"
 import { useAuthStore } from "../store/auth"
 
 const router = useRouter()
+const route = useRoute()
 const auth = useAuthStore()
+
+const isRedirectFromCotizador = computed(() => {
+  return route.query.redirect === '/dashboard/cotizador'
+})
 
 const email = ref("")
 const password = ref("")
@@ -77,7 +87,8 @@ const login = async () => {
     if (auth.isAdmin) {
       router.push("/dashboard/admin")
     } else {
-      router.push("/dashboard/user")
+      const redirectPath = route.query.redirect || "/dashboard/user"
+      router.push(redirectPath)
     }
 
   } catch (err) {
@@ -190,6 +201,24 @@ h2 {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-5px); }
   75% { transform: translateX(5px); }
+}
+
+.alert-marketing {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(236, 72, 153, 0.1));
+  color: var(--primary);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  text-align: left;
+  gap: 10px;
+  border: 1px solid rgba(79, 70, 229, 0.2);
+}
+.alert-marketing .icon {
+  font-size: 1.2rem;
 }
 
 .form-group {

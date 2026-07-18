@@ -7,6 +7,7 @@ import AdminDashboard from '../views/AdminDashboard.vue'
 import AddPropiedad from '../views/AddPropiedad.vue'
 import Users from '../views/Users.vue'
 import Cotizador from '../views/Cotizador.vue'
+import { useAuthStore } from '../store/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,6 +30,7 @@ const router = createRouter({
     {
       path: '/dashboard',
       component: () => import('../components/Sidebar.vue'),
+      meta: { requiresAuth: true },
       children: [
         {
           path: 'user',
@@ -43,21 +45,38 @@ const router = createRouter({
         {
           path: 'admin',
           name: 'Panel de Administración',
-          component: AdminDashboard
+          component: AdminDashboard,
+          meta: { isAdmin: true }
         },
         {
           path: 'admin/add-propiedad',
           name: 'Añadir Propiedad',
-          component: AddPropiedad
+          component: AddPropiedad,
+          meta: { isAdmin: true }
         },
         {
           path: 'admin/usuarios',
           name: 'Gestión de Usuarios',
-          component: Users
+          component: Users,
+          meta: { isAdmin: true }
         }
       ]
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+  
+  if (to.matched.some(record => record.meta.requiresAuth) && !authStore.isAuthenticated) {
+    // Redirigir a login, guardando la ruta a la que quería ir
+    next({ path: '/login', query: { redirect: to.fullPath } })
+  } else if (to.matched.some(record => record.meta.isAdmin) && !authStore.isAdmin) {
+    // Si requiere ser admin y no lo es
+    next({ path: '/dashboard/user' })
+  } else {
+    next()
+  }
 })
 
 export default router
