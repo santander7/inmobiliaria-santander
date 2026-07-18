@@ -1,7 +1,7 @@
 <template>
   <div class="cotizador-container">
     <div class="cotizador-header">
-      <h2 class="cotizador-title">Cotizador Inmobiliario Inteligente</h2>
+      <h2 class="cotizador-title">Santander Cotiza</h2>
       <p class="cotizador-subtitle">Obtén un presupuesto realista y detallado para tu proyecto en Puerto Asís.</p>
       
       <!-- Aviso de Venta/Compra -->
@@ -327,7 +327,7 @@
             <span class="faq-icon"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg></span>
           </summary>
           <p class="faq-text">
-            En Inmobiliaria Santander somos tus aliados. Si el banco dice "no" o no tienes el 100% de la cuota inicial, nosotros te ofrecemos <strong>planes de financiación directa con la constructora</strong>. Acordamos pagos a plazos, recibimos vehículos en parte de pago y nos adaptamos a tu bolsillo. No dejes que la falta de efectivo ahogue tu sueño.
+            En Inmobiliaria Santander somos tus aliados. Si el banco dice "no" o no tienes el 100% de tu presupuesto, nosotros te ofrecemos <strong>planes de financiación directa con la constructora</strong>. Acordamos pagos a plazos, recibimos vehículos en parte de pago y nos adaptamos a tu bolsillo. No dejes que la falta de efectivo ahogue tu sueño.
           </p>
         </details>
 

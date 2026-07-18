@@ -37,7 +37,7 @@ const router = createRouter({
         },
         {
           path: 'cotizador',
-          name: 'Cotizador Inteligente',
+          name: 'Santander Cotiza',
           component: Cotizador
         },
         {

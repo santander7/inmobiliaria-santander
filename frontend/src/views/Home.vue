@@ -251,7 +251,7 @@
             Utiliza nuestro exclusivo Software de Cotización Inteligente. Selecciona la zona de Puerto Asís, los metros cuadrados y los acabados para obtener un presupuesto transparente, detallado e instantáneo.
           </p>
           <router-link to="/dashboard/cotizador" class="btn-cta">
-            Abrir Cotizador Inteligente
+            Abrir Santander Cotiza
           </router-link>
         </div>
       </div>
