@@ -540,7 +540,7 @@ onMounted(() => {
   observer = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
       animateValue(expCount, 0, 10, 2000)
-      animateValue(m2Count, 0, 2500, 2000) // 20 casas * ~125m2 + piscinas
+      animateValue(m2Count, 0, 2100, 2000) // 20 casas * 105m2 promedio
       animateValue(familiesCount, 0, 20, 2000)
       observer.disconnect()
     }
