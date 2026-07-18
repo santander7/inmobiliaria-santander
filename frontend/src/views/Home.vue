@@ -155,7 +155,7 @@
                 </div>
                 <div>
                   <h4 class="feature-title">Ecoturismo en Auge</h4>
-                  <p class="feature-text">Con maravillas naturales como Playa Rica y el Centro Ecoturístico Kofán, el turismo rural y de naturaleza está impulsando un nuevo mercado inmobiliario de casas campestres.</p>
+                  <p class="feature-text">Cerca de la ciudad contamos con hermosos lugares turísticos rodeados de naturaleza. Esto ha hecho que cada vez más personas busquen construir casas campestres para descansar los fines de semana o para alquilar, creando una gran oportunidad de negocio para ti.</p>
                 </div>
               </div>
               <div class="feature-item">
