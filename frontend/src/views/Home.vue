@@ -241,6 +241,29 @@
       </div>
     </section>
 
+    <!-- Estadísticas Animadas (Cronómetro) -->
+    <section class="stats-section" ref="statsRef">
+      <div class="stats-content">
+        <div class="stats-grid">
+          <!-- Años de Experiencia -->
+          <div class="stat-card">
+            <h3 class="stat-value">+{{ expCount }}</h3>
+            <p class="stat-label">Años de Experiencia</p>
+          </div>
+          <!-- Metros Construidos -->
+          <div class="stat-card">
+            <h3 class="stat-value">+{{ m2Count }}m²</h3>
+            <p class="stat-label">Construidos</p>
+          </div>
+          <!-- Familias Felices -->
+          <div class="stat-card">
+            <h3 class="stat-value">{{ familiesCount }}</h3>
+            <p class="stat-label">Familias Felices</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Call To Action (Cotizador) -->
     <section class="cta-section">
       <div class="cta-content">
@@ -435,6 +458,26 @@ const scrolled = ref(false)
 const propiedadesReales = ref([])
 const cargando = ref(true)
 
+// Variables para el cronómetro de estadísticas
+const statsRef = ref(null)
+const expCount = ref(0)
+const m2Count = ref(0)
+const familiesCount = ref(0)
+let observer = null
+
+const animateValue = (refVar, start, end, duration) => {
+  let startTimestamp = null;
+  const step = (timestamp) => {
+    if (!startTimestamp) startTimestamp = timestamp;
+    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+    refVar.value = Math.floor(progress * (end - start) + start);
+    if (progress < 1) {
+      window.requestAnimationFrame(step);
+    }
+  };
+  window.requestAnimationFrame(step);
+}
+
 const filtros = reactive({
   tipo: '',
   ubicacion: '',
@@ -492,10 +535,23 @@ const cargarPropiedades = async () => {
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
   cargarPropiedades()
+
+  // Configurar IntersectionObserver para iniciar cronómetro
+  observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      animateValue(expCount, 0, 10, 2000)
+      animateValue(m2Count, 0, 2500, 2000) // 20 casas * ~125m2 + piscinas
+      animateValue(familiesCount, 0, 20, 2000)
+      observer.disconnect()
+    }
+  }, { threshold: 0.3 })
+  
+  if (statsRef.value) observer.observe(statsRef.value)
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  if (observer) observer.disconnect()
 })
 
 const propiedadesMostrar = computed(() => {
@@ -779,6 +835,26 @@ const formatCurrency = (val) => {
 }
 .service-card-text {
   @apply text-slate-500 text-sm leading-relaxed;
+}
+
+/* Stats Section (Cronómetro) */
+.stats-section {
+  @apply pb-24 bg-[#F8FAFC];
+}
+.stats-content {
+  @apply max-w-5xl mx-auto px-6 lg:px-8;
+}
+.stats-grid {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+}
+.stat-card {
+  @apply bg-white p-10 rounded-xl text-center border-2 border-orange-100 hover:border-orange-300 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1;
+}
+.stat-value {
+  @apply text-5xl md:text-6xl font-extrabold text-[#0F172A] mb-2 tracking-tighter;
+}
+.stat-label {
+  @apply text-lg font-medium text-slate-500;
 }
 
 /* CTA Section */
