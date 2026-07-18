@@ -39,11 +39,10 @@
         <div class="hero-text-wrapper">
           <span class="hero-badge">Puerto Asís, Putumayo</span>
           <h1 class="hero-title">
-            El cimiento seguro para <br />
-            <span class="hero-title-highlight">construir tu futuro.</span>
+            Porque una familia segura merece un hogar para toda la vida.
           </h1>
           <p class="hero-description">
-            Proyectos inmobiliarios con absoluta transparencia, solidez estructural y procesos 100% legales. Tu tranquilidad es nuestra mayor obra.
+            Sabemos que no estás buscando solo ladrillos, sino el refugio donde crecerán tus hijos. En Inmobiliaria & Constructora Santander somos los indicados para acompañarte: desde diseñar y cotizar tu presupuesto de forma honesta en tiempo real, hasta construir con nuestras propias manos la solidez y la seguridad jurídica que tu familia necesita.
           </p>
         </div>
 
