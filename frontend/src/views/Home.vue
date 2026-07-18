@@ -172,8 +172,8 @@
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
                 </div>
                 <div>
-                  <h4 class="feature-title">Alta Plusvalía Garantizada</h4>
-                  <p class="feature-text">Reconocida como la capital comercial del departamento, invertir hoy significa asegurar un alto retorno. Nuestro pujante comercio (impulsado por el petróleo y la frontera con Ecuador), junto con el puerto fluvial que despacha embarcaciones hacia Brasil y Perú, y el creciente turismo de naturaleza en los alrededores, hacen de Puerto Asís una oportunidad inigualable.</p>
+                  <h4 class="feature-title">Tu inversión crecerá rápido</h4>
+                  <p class="feature-text">Puerto Asís es la ciudad más comercial de todo el Putumayo. Comprar aquí significa que tu casa o tu lote valdrá mucho más dinero en los próximos años, gracias al comercio constante, nuestro río que nos conecta con países vecinos y el turismo que no para de crecer. Es el lugar más seguro para que tu dinero rinda frutos.</p>
                 </div>
               </div>
             </div>
