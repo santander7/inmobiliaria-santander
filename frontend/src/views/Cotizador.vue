@@ -298,37 +298,91 @@
     <div class="mt-20">
       <h3 class="faq-title">Preguntas Frecuentes</h3>
       <div class="space-y-4">
+        <!-- FAQ 1: Seguridad Legal -->
         <details class="faq-item group cursor-pointer">
           <summary class="faq-summary">
-            ¿Los precios de la cotización son fijos y definitivos?
-            <span class="faq-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
-            </span>
+            ¿Es seguro invertir mis ahorros con ustedes? ¿Qué garantías legales tengo?
+            <span class="faq-icon"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg></span>
           </summary>
           <p class="faq-text">
-            No. Los precios que arroja el sistema son una estimación realista basada en los promedios del mercado en Puerto Asís, Putumayo. Sin embargo, en Inmobiliaria & Constructora Santander **todos nuestros precios son negociables**. Nos sentamos contigo, revisamos tu presupuesto y llegamos a un acuerdo que te beneficie.
+            Absolutamente. Somos una empresa constituida legalmente. Todo negocio se respalda mediante <strong>contratos notariados, escrituras públicas al día y licencias de construcción aprobadas</strong>. Tu inversión está 100% blindada por la ley desde el día cero.
           </p>
         </details>
+        
+        <!-- FAQ 2: Precios Fijos -->
         <details class="faq-item group cursor-pointer">
           <summary class="faq-summary">
-            ¿Qué incluye exactamente el valor de construcción?
-            <span class="faq-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
-            </span>
+            ¿Los precios de la cotización son definitivos o me pueden cobrar más a mitad de obra?
+            <span class="faq-icon"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg></span>
           </summary>
           <p class="faq-text">
-            Nuestra cotización integral incluye la mano de obra especializada, la compra de todos los materiales necesarios y, lo más importante: **la gestión de trámites, licencias de construcción, planos arquitectónicos y escrituración**. Nosotros nos encargamos de todo el papeleo legal para tu tranquilidad.
+            Los valores que ves aquí son estimaciones muy precisas. Sin embargo, al firmar contrato contigo, trabajamos bajo la modalidad de <strong>precio cerrado</strong> o presupuesto garantizado. Esto significa que los riesgos de inflación los asumimos nosotros; no tendrás "sorpresas" de cobros extras a mitad de camino.
           </p>
         </details>
+
+        <!-- FAQ 3: Sin dinero completo -->
         <details class="faq-item group cursor-pointer">
           <summary class="faq-summary">
-            ¿Cómo funcionan las facilidades de pago?
-            <span class="faq-icon">
-               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
-            </span>
+            ¿Qué pasa si no tengo todo el dinero o el banco me niega el crédito?
+            <span class="faq-icon"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg></span>
           </summary>
           <p class="faq-text">
-            No tienes que tener todo el dinero en efectivo. Aceptamos pagos de contado con descuentos, te asesoramos para obtener un **crédito hipotecario con el banco**, o podemos establecer un acuerdo de pago a plazos directo con nosotros (máximo 6 meses) a medida que avanza la obra.
+            En Inmobiliaria Santander somos tus aliados. Si el banco dice "no" o no tienes el 100% de la cuota inicial, nosotros te ofrecemos <strong>planes de financiación directa con la constructora</strong>. Acordamos pagos a plazos, recibimos vehículos en parte de pago y nos adaptamos a tu bolsillo. No dejes que la falta de efectivo ahogue tu sueño.
+          </p>
+        </details>
+
+        <!-- FAQ 4: Tiempo -->
+        <details class="faq-item group cursor-pointer">
+          <summary class="faq-summary">
+            ¿Cuánto tiempo real se tardan en construir y entregar la casa lista?
+            <span class="faq-icon"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg></span>
+          </summary>
+          <p class="faq-text">
+            Depende del área, pero una casa estándar de 90 m² suele entregarse <strong>entre 4 a 6 meses</strong> (incluyendo los tiempos de secado estructural). En el contrato estipulamos fechas claras de entrega, y somos muy estrictos con nuestros cronogramas de obra.
+          </p>
+        </details>
+
+        <!-- FAQ 5: Qué incluye -->
+        <details class="faq-item group cursor-pointer">
+          <summary class="faq-summary">
+            ¿Qué incluye exactamente el valor que arroja el cotizador?
+            <span class="faq-icon"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg></span>
+          </summary>
+          <p class="faq-text">
+            ¡Absolutamente todo! Es un servicio llave en mano. Incluye: diseños arquitectónicos personalizados, gestión de licencias ante la alcaldía, toda la mano de obra, todos los materiales y los acabados (según elijas). <strong>Te entregamos las llaves en la mano para que solo lleves tus muebles.</strong>
+          </p>
+        </details>
+
+        <!-- FAQ 6: Transparencia y Visitas -->
+        <details class="faq-item group cursor-pointer">
+          <summary class="faq-summary">
+            ¿Puedo ir a ver la obra mientras la construyen o visitar proyectos anteriores?
+            <span class="faq-icon"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg></span>
+          </summary>
+          <p class="faq-text">
+            ¡Por supuesto! Tu casa es tuya desde el primer ladrillo. Tienes puertas abiertas para auditar el avance cuando desees. Además, si quieres estar más seguro, <strong>te invitamos a dar un recorrido por las casas que ya le hemos entregado a familias felices</strong> en Puerto Asís. 
+          </p>
+        </details>
+
+        <!-- FAQ 7: Lote propio -->
+        <details class="faq-item group cursor-pointer">
+          <summary class="faq-summary">
+            Si ya tengo mi propio lote, ¿ustedes construyen sobre él? ¿Importa si es rural?
+            <span class="faq-icon"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg></span>
+          </summary>
+          <p class="faq-text">
+            Sí. Solo debes seleccionar la opción "Construir casa (ya tengo mi propio lote)" en el cotizador. Construimos tanto en zonas céntricas, periféricas como rurales. Nuestro equipo técnico hará una visita gratuita para evaluar las condiciones del terreno (desniveles, acceso a servicios) antes de iniciar.
+          </p>
+        </details>
+
+        <!-- FAQ 8: Calidad Materiales -->
+        <details class="faq-item group cursor-pointer">
+          <summary class="faq-summary">
+            ¿Usan materiales de buena calidad o intentan ahorrar usando los más baratos?
+            <span class="faq-icon"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg></span>
+          </summary>
+          <p class="faq-text">
+            Nuestra reputación es nuestro mayor activo. Trabajamos bajo estrictas normas de sismo-resistencia (NSR-10) con hierro y cemento certificados. En cuanto a los acabados (Económico, Estándar o Premium), usamos marcas reconocidas; <strong>tú mismo aprobarás los materiales, baldosas y griferías</strong> antes de instalarlos.
           </p>
         </details>
       </div>
