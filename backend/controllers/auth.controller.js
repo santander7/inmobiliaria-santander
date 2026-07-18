@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -6,7 +6,7 @@ exports.register = async (req, res) => {
   try {
     const { nombre, correo, telefono, password } = req.body;
     
-    const existingUser = await User.findOne({ where: { correo } });
+    const existingUser = await User.findOne({ correo });
     if (existingUser) {
       return res.status(400).json({ message: 'El correo ya está registrado' });
     }
@@ -33,7 +33,7 @@ exports.login = async (req, res) => {
   try {
     const { correo, password } = req.body;
     
-    const user = await User.findOne({ where: { correo } });
+    const user = await User.findOne({ correo });
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
@@ -48,13 +48,13 @@ exports.login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user.id, role: user.role },
+      { id: user._id, role: user.role },
       process.env.JWT_SECRET || 'super_secreto_para_jwt_cambiame',
       { expiresIn: 86400 } // 24 horas
     );
 
     res.status(200).json({
-      id: user.id,
+      id: user._id,
       nombre: user.nombre,
       correo: user.correo,
       telefono: user.telefono,
@@ -63,5 +63,14 @@ exports.login = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: 'Error en el servidor', error: error.message });
+  }
+};
+
+exports.getUsers = async (req, res) => {
+  try {
+    const users = await User.find({}, '-password').sort({ createdAt: -1 });
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener usuarios', error: error.message });
   }
 };

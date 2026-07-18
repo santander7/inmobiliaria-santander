@@ -47,11 +47,24 @@ const Cita = sequelize.define('Cita', {
 
 const Cotizacion = sequelize.define('Cotizacion', {
   id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+  tipo_proyecto: { type: DataTypes.ENUM('LOTE_Y_CASA', 'SOLO_CASA', 'REMODELACION', 'SOLO_LOTE'), allowNull: false },
+  fase_construccion: { type: DataTypes.ENUM('OBRA_GRIS', 'OBRA_BLANCA', 'NO_APLICA'), defaultValue: 'OBRA_BLANCA' },
+  tipo_estructura: { type: DataTypes.ENUM('UN_PISO_TECHO', 'UN_PISO_PLANCHA', 'DOS_PISOS', 'NO_APLICA'), defaultValue: 'UN_PISO_TECHO' },
   metros_cuadrados: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
   habitaciones: { type: DataTypes.INTEGER, allowNull: false },
   banos: { type: DataTypes.INTEGER, allowNull: false },
-  presupuesto_estimado: { type: DataTypes.DECIMAL(15, 2), allowNull: false },
-  estado: { type: DataTypes.ENUM('PRELIMINAR', 'EN_REVISION', 'APROBADA', 'RECHAZADA'), defaultValue: 'PRELIMINAR' }
+  tipo_acabados: { type: DataTypes.ENUM('ECONOMICO', 'ESTANDAR', 'PREMIUM', 'NINGUNO'), defaultValue: 'ESTANDAR' },
+  zona_lote: { type: DataTypes.ENUM('CENTRO', 'PERIFERIA', 'RURAL', 'NO_APLICA'), defaultValue: 'NO_APLICA' },
+  area_lote: { type: DataTypes.DECIMAL(10, 2), allowNull: true },
+  presupuesto_cliente: { type: DataTypes.DECIMAL(15, 2), allowNull: true },
+  costo_materiales: { type: DataTypes.DECIMAL(15, 2), allowNull: false },
+  costo_mano_obra: { type: DataTypes.DECIMAL(15, 2), allowNull: false },
+  costo_lote: { type: DataTypes.DECIMAL(15, 2), defaultValue: 0 },
+  costo_calculado: { type: DataTypes.DECIMAL(15, 2), allowNull: false },
+  tiempo_meses: { type: DataTypes.DECIMAL(4, 1), allowNull: false },
+  incluye_lote: { type: DataTypes.BOOLEAN, defaultValue: false },
+  respuestas_cliente: { type: DataTypes.JSON, allowNull: true },
+  estado: { type: DataTypes.ENUM('PRELIMINAR', 'CONTACTADO', 'CERRADO'), defaultValue: 'PRELIMINAR' }
 });
 
 // Relaciones

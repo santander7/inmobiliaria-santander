@@ -1,15 +1,13 @@
-const { Sequelize } = require('sequelize');
+const mongoose = require('mongoose');
 
-// Asegúrate de tener estas variables en tu archivo .env local
-const sequelize = new Sequelize(
-  process.env.DB_NAME || 'inmobiliaria_putumayo',
-  process.env.DB_USER || 'root',
-  process.env.DB_PASSWORD || '',
-  {
-    host: process.env.DB_HOST || 'localhost',
-    dialect: 'mysql',
-    logging: false
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI);
+    console.log(`MongoDB conectado: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(`Error de conexión a MongoDB: ${error.message}`);
+    process.exit(1);
   }
-);
+};
 
-module.exports = { sequelize };
+module.exports = connectDB;

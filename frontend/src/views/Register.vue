@@ -40,9 +40,12 @@
           </div>
         </div>
 
+        <div v-if="errorMsg" class="bg-red-50 text-red-500 p-3 rounded-lg text-sm text-center">
+          {{ errorMsg }}
+        </div>
         <div>
-          <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all shadow-lg shadow-primary/30 transform hover:-translate-y-0.5">
-            Registrarse
+          <button type="submit" :disabled="loading" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all shadow-lg shadow-primary/30 transform hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed">
+            {{ loading ? 'Registrando...' : 'Registrarse' }}
           </button>
         </div>
       </form>
@@ -56,7 +59,9 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '../store/auth'
 
 const form = reactive({
   nombre: '',
@@ -66,12 +71,41 @@ const form = reactive({
   confirmPassword: ''
 })
 
-const handleRegister = () => {
+const errorMsg = ref('')
+const loading = ref(false)
+
+const router = useRouter()
+const authStore = useAuthStore()
+
+const handleRegister = async () => {
+  errorMsg.value = ''
+  
   if (form.password !== form.confirmPassword) {
-    alert("Las contraseñas no coinciden")
+    errorMsg.value = "Las contraseñas no coinciden"
     return
   }
-  console.log('Register attempt:', form)
-  // Aquí integraremos Axios
+  
+  loading.value = true
+  try {
+    await authStore.register({
+      nombre: form.nombre,
+      correo: form.correo,
+      telefono: form.telefono,
+      password: form.password
+    })
+    
+    // Una vez registrado, hacemos login automáticamente
+    await authStore.login({ correo: form.correo, password: form.password })
+    
+    if (authStore.isAdmin) {
+      router.push('/dashboard/admin')
+    } else {
+      router.push('/dashboard/user')
+    }
+  } catch (error) {
+    errorMsg.value = error
+  } finally {
+    loading.value = false
+  }
 }
 </script>

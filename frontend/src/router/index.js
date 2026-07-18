@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LandingPage from '../views/LandingPage.vue'
-import Login from '../views/auth/Login.vue'
-import Register from '../views/auth/Register.vue'
-import DashboardLayout from '../layouts/DashboardLayout.vue'
-import UserDashboard from '../views/user/Dashboard.vue'
-import AdminDashboard from '../views/admin/Dashboard.vue'
+import Home from '../views/Home.vue'
+import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
+import UserDashboard from '../views/UserDashboard.vue'
+import AdminDashboard from '../views/AdminDashboard.vue'
+import AddPropiedad from '../views/AddPropiedad.vue'
+import Users from '../views/Users.vue'
+import Cotizador from '../views/Cotizador.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,7 +14,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: LandingPage
+      component: Home
     },
     {
       path: '/login',
@@ -26,7 +28,7 @@ const router = createRouter({
     },
     {
       path: '/dashboard',
-      component: DashboardLayout,
+      component: () => import('../components/Sidebar.vue'),
       children: [
         {
           path: 'user',
@@ -34,9 +36,24 @@ const router = createRouter({
           component: UserDashboard
         },
         {
+          path: 'cotizador',
+          name: 'Cotizador Inteligente',
+          component: Cotizador
+        },
+        {
           path: 'admin',
           name: 'Panel de Administración',
           component: AdminDashboard
+        },
+        {
+          path: 'admin/add-propiedad',
+          name: 'Añadir Propiedad',
+          component: AddPropiedad
+        },
+        {
+          path: 'admin/usuarios',
+          name: 'Gestión de Usuarios',
+          component: Users
         }
       ]
     }

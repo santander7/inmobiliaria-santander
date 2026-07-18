@@ -1,11 +1,21 @@
-const { Propiedad, ImagenPropiedad } = require('../models');
+const Propiedad = require('../models/Propiedad');
 const cloudinary = require('../config/cloudinary');
-const { Op } = require('sequelize');
 
 exports.createPropiedad = async (req, res) => {
   try {
     const { titulo, descripcion, precio, municipio, area, estado, tipo, caracteristicas } = req.body;
     
+    // Subir imágenes a Cloudinary si existen
+    const imagenesList = [];
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const b64 = Buffer.from(file.buffer).toString('base64');
+        const dataURI = "data:" + file.mimetype + ";base64," + b64;
+        const result = await cloudinary.uploader.upload(dataURI, { folder: "inmobiliaria_putumayo" });
+        imagenesList.push({ url: result.secure_url });
+      }
+    }
+
     // Crear propiedad
     const propiedad = await Propiedad.create({
       titulo,
@@ -15,23 +25,10 @@ exports.createPropiedad = async (req, res) => {
       area,
       estado,
       tipo,
-      caracteristicas: caracteristicas ? JSON.parse(caracteristicas) : null,
-      admin_id: req.userId
+      caracteristicas: caracteristicas ? JSON.parse(caracteristicas) : {},
+      imagenes: imagenesList,
+      creador: req.userId // Creador
     });
-
-    // Subir imágenes a Cloudinary si existen
-    if (req.files && req.files.length > 0) {
-      for (const file of req.files) {
-        const b64 = Buffer.from(file.buffer).toString('base64');
-        const dataURI = "data:" + file.mimetype + ";base64," + b64;
-        const result = await cloudinary.uploader.upload(dataURI, { folder: "inmobiliaria_putumayo" });
-        
-        await ImagenPropiedad.create({
-          url: result.secure_url,
-          propiedad_id: propiedad.id
-        });
-      }
-    }
 
     res.status(201).json({ message: 'Propiedad creada con éxito', propiedad });
   } catch (error) {
@@ -42,21 +39,19 @@ exports.createPropiedad = async (req, res) => {
 exports.getPropiedades = async (req, res) => {
   try {
     const { tipo, municipio, minPrecio, maxPrecio } = req.query;
-    let where = {};
+    let filter = {};
     
-    if (tipo) where.tipo = tipo;
-    if (municipio) where.municipio = municipio;
+    if (tipo) filter.tipo = tipo;
+    if (municipio) filter.municipio = municipio;
     
     if (minPrecio || maxPrecio) {
-      where.precio = {};
-      if (minPrecio) where.precio[Op.gte] = minPrecio;
-      if (maxPrecio) where.precio[Op.lte] = maxPrecio;
+      filter.precio = {};
+      if (minPrecio) filter.precio.$gte = Number(minPrecio);
+      if (maxPrecio) filter.precio.$lte = Number(maxPrecio);
     }
 
-    const propiedades = await Propiedad.findAll({
-      where,
-      include: [{ model: ImagenPropiedad, as: 'imagenes' }]
-    });
+    // Usamos el .find de Mongoose en vez de .findAll
+    const propiedades = await Propiedad.find(filter).populate('creador', 'nombre correo');
 
     res.status(200).json(propiedades);
   } catch (error) {
