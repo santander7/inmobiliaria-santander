@@ -483,7 +483,7 @@ Me interesa conversar sobre este proyecto y los acuerdos de pago.`
   @apply bg-gradient-to-br from-[#0F172A] to-slate-800 rounded-3xl p-1 shadow-2xl;
 }
 .resultado-card {
-  @apply bg-white rounded-[23px] p-8 relative overflow-hidden;
+  @apply bg-white rounded-[23px] p-4 sm:p-6 md:p-8 relative overflow-hidden;
 }
 .resultado-decor {
   @apply absolute -right-20 -top-20 w-64 h-64 bg-slate-100 rounded-full blur-3xl pointer-events-none;
@@ -502,7 +502,7 @@ Me interesa conversar sobre este proyecto y los acuerdos de pago.`
 }
 
 .desglose-grid {
-  @apply grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 relative z-10;
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8 relative z-10;
 }
 .desglose-item {
   @apply bg-slate-50 p-5 rounded-xl border border-slate-100 flex justify-between items-center;
@@ -515,7 +515,7 @@ Me interesa conversar sobre este proyecto y los acuerdos de pago.`
 }
 
 .total-box {
-  @apply bg-slate-50 border border-slate-200 p-8 rounded-2xl mb-8 relative z-10 flex flex-col items-center text-center;
+  @apply bg-slate-50 border border-slate-200 p-4 sm:p-6 md:p-8 rounded-2xl mb-8 relative z-10 flex flex-col items-center text-center;
 }
 .total-label {
   @apply text-xs font-bold text-slate-500 uppercase tracking-widest mb-2;
@@ -528,7 +528,7 @@ Me interesa conversar sobre este proyecto y los acuerdos de pago.`
 }
 
 .simulador-box {
-  @apply w-full mt-4 bg-white p-6 rounded-xl border border-slate-100 shadow-sm text-left;
+  @apply w-full mt-4 bg-white p-4 sm:p-5 md:p-6 rounded-xl border border-slate-100 shadow-sm text-left;
 }
 .simulador-header {
   @apply flex items-center gap-2 mb-6 border-b border-slate-100 pb-4;
@@ -541,7 +541,7 @@ Me interesa conversar sobre este proyecto y los acuerdos de pago.`
 }
 
 .simulador-results-grid {
-  @apply grid grid-cols-2 md:grid-cols-4 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100;
+  @apply grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 bg-slate-50 p-3 md:p-4 rounded-xl border border-slate-100;
 }
 .sim-res-label {
   @apply text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1;
@@ -566,7 +566,7 @@ Me interesa conversar sobre este proyecto y los acuerdos de pago.`
 }
 
 .acuerdos-box {
-  @apply bg-slate-100 border border-slate-200 p-6 rounded-xl mb-8 relative z-10 flex gap-4;
+  @apply bg-slate-100 border border-slate-200 p-4 md:p-6 rounded-xl mb-8 relative z-10 flex flex-col sm:flex-row gap-4;
 }
 .acuerdos-icon {
   @apply text-[#0F172A] mt-1;
@@ -589,7 +589,7 @@ Me interesa conversar sobre este proyecto y los acuerdos de pago.`
 }
 
 .form-wrapper {
-  @apply bg-white p-8 rounded-2xl shadow-xl border border-slate-100 relative overflow-hidden;
+  @apply bg-white p-5 sm:p-6 md:p-8 rounded-2xl shadow-xl border border-slate-100 relative overflow-hidden;
 }
 .form-decor {
   @apply absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-bl-full -z-10;
