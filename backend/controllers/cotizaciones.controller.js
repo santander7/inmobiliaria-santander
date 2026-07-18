@@ -11,24 +11,24 @@ const calcularPresupuesto = (data) => {
     tiempoBase = 0.5;
     factorTiempo = 60;
     switch(data.tipo_acabados) {
-      case 'ECONOMICO': materialesPorM2 = 400000; manoObraPorM2 = 200000; break;
-      case 'ESTANDAR': materialesPorM2 = 550000; manoObraPorM2 = 350000; break;
-      case 'PREMIUM': materialesPorM2 = 800000; manoObraPorM2 = 600000; break;
+      case 'ECONOMICO': materialesPorM2 = 450000; manoObraPorM2 = 350000; break;
+      case 'ESTANDAR': materialesPorM2 = 650000; manoObraPorM2 = 450000; break;
+      case 'PREMIUM': materialesPorM2 = 1000000; manoObraPorM2 = 600000; break;
     }
   } else {
     tiempoBase = 1; 
     factorTiempo = 40; 
     
-    let materialesGris = 750000;
+    let materialesGris = 800000;
     let manoObraGris = 450000;
 
     // Si es con plancha o dos pisos, la estructura es más pesada y costosa (cimentación reforzada, losa)
     if (data.tipo_estructura === 'UN_PISO_PLANCHA') {
-      materialesGris += 200000; // Incremento por losa y refuerzos
-      manoObraGris += 100000;
-    } else if (data.tipo_estructura === 'DOS_PISOS') {
-      materialesGris += 250000; 
+      materialesGris += 250000; // Incremento por losa y refuerzos
       manoObraGris += 150000;
+    } else if (data.tipo_estructura === 'DOS_PISOS') {
+      materialesGris += 400000; 
+      manoObraGris += 250000;
     }
     
     let materialesBlanca = 0;
@@ -37,9 +37,9 @@ const calcularPresupuesto = (data) => {
     // Si el cliente eligió OBRA BLANCA, sumamos los acabados. Si eligió OBRA GRIS, se quedan en 0.
     if (data.fase_construccion === 'OBRA_BLANCA') {
       switch(data.tipo_acabados) {
-        case 'ECONOMICO': materialesBlanca = 200000; manoObraBlanca = 150000; break; 
-        case 'ESTANDAR': materialesBlanca = 550000; manoObraBlanca = 350000; break; 
-        case 'PREMIUM': materialesBlanca = 900000; manoObraBlanca = 500000; break; 
+        case 'ECONOMICO': materialesBlanca = 400000; manoObraBlanca = 300000; break; 
+        case 'ESTANDAR': materialesBlanca = 650000; manoObraBlanca = 450000; break; 
+        case 'PREMIUM': materialesBlanca = 950000; manoObraBlanca = 650000; break; 
       }
     }
 
@@ -51,7 +51,7 @@ const calcularPresupuesto = (data) => {
   let totalManoObra = data.metros_cuadrados * manoObraPorM2;
   
   if (data.fase_construccion === 'OBRA_BLANCA' || data.tipo_proyecto === 'REMODELACION') {
-    totalMateriales += (data.banos * 1000000);
+    totalMateriales += (data.banos * 900000);
     totalManoObra += (data.banos * 500000);
   }
 
@@ -61,9 +61,9 @@ const calcularPresupuesto = (data) => {
       costoLote = parseFloat(data.lote_precio_real);
     } else if (data.zona_lote) {
       // Valores fijos según la realidad de Puerto Asís
-      if (data.zona_lote === 'CENTRO') costoLote = 120000000;
-      if (data.zona_lote === 'PERIFERIA') costoLote = 55000000;
-      if (data.zona_lote === 'RURAL') costoLote = 35000000;
+      if (data.zona_lote === 'CENTRO') costoLote = 135000000;
+      if (data.zona_lote === 'PERIFERIA') costoLote = 65000000;
+      if (data.zona_lote === 'RURAL') costoLote = 45000000;
     }
   }
 
