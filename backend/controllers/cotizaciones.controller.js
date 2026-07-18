@@ -29,6 +29,9 @@ const calcularPresupuesto = (data) => {
     } else if (data.tipo_estructura === 'DOS_PISOS') {
       materialesGris += 400000; 
       manoObraGris += 250000;
+    } else if (data.tipo_estructura === 'TRES_MAS_PISOS') {
+      materialesGris += 650000; // Refuerzos estructurales mayores, columnas anchas
+      manoObraGris += 450000;
     }
     
     let materialesBlanca = 0;

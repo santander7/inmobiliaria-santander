@@ -106,14 +106,57 @@
           </div>
         </div>
 
-        <div class="resultado-actions">
+        <div v-if="mostrandoPerfil" class="perfil-box mt-8 animate-fade-in-up">
+          <h4 class="perfil-title">Queremos ser tus aliados estratégicos</h4>
+          <p class="perfil-subtitle">No te preocupes si no tienes el 100% del dinero hoy. Cuéntanos un poco sobre tu situación y juntos diseñaremos un plan de pagos a tu medida.</p>
+          
+          <div class="perfil-form space-y-4 mt-6">
+            <div>
+              <label class="form-label text-left">¿Cuál es tu fuente de ingresos principal?</label>
+              <select v-model="form.respuestas_cliente.fuente_ingresos" class="form-select">
+                <option value="EMPLEADO">Empleado (Empresa pública/privada)</option>
+                <option value="INDEPENDIENTE">Independiente / Tengo mi propio negocio</option>
+                <option value="PENSIONADO">Pensionado</option>
+                <option value="EXTERIOR">Vivo en el exterior / Remesas</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="form-label text-left">¿Cómo tienes pensado financiar este proyecto?</label>
+              <select v-model="form.respuestas_cliente.metodo_financiacion" class="form-select">
+                <option value="AHORROS">Tengo ahorros propios / Cesantías listas para usar</option>
+                <option value="BANCO">Quiero pedir un crédito hipotecario con un Banco</option>
+                <option value="SUBSIDIO">Tengo un Subsidio (Mi Casa Ya, Caja de compensación, etc)</option>
+                <option value="CONSTRUCTORA">Me encantaría un plan de pagos directo con la Constructora</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label text-left">¿Cuentas con alguna cuota inicial?</label>
+              <select v-model="form.respuestas_cliente.cuota_inicial" class="form-select">
+                <option value="MENOS_30">Sí, tengo entre un 10% y un 30% ahorrado</option>
+                <option value="MAS_30">Sí, tengo más del 30% listo para invertir</option>
+                <option value="NADA">Aún no, estoy buscando opciones para empezar desde cero</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="mt-6 flex justify-end">
+            <a :href="whatsappLinkFinal" target="_blank" class="btn-whatsapp w-full sm:w-auto">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd" /></svg>
+              Hablar con un asesor ahora
+            </a>
+          </div>
+        </div>
+
+        <div v-else class="resultado-actions">
           <button @click="resetForm" class="btn-reset">
             Hacer otro cálculo
           </button>
-          <a :href="whatsappLink" target="_blank" class="btn-whatsapp">
+          <button @click="mostrandoPerfil = true" class="btn-whatsapp">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd" /></svg>
             Negociar por WhatsApp
-          </a>
+          </button>
         </div>
       </div>
     </div>
@@ -181,6 +224,7 @@
                   <option value="UN_PISO_TECHO">Casa de 1 Piso (Con Techo Normal)</option>
                   <option value="UN_PISO_PLANCHA">Casa de 1 Piso (Con Plancha para 2do piso)</option>
                   <option value="DOS_PISOS">Casa de 2 Pisos</option>
+                  <option value="TRES_MAS_PISOS">Casa de 3 Pisos o más (Columnas reforzadas)</option>
                 </select>
               </div>
 
@@ -235,33 +279,7 @@
           </div>
         </div>
 
-        <!-- Sección 2: Conociéndonos -->
-        <div>
-          <h3 class="section-title mt-8">
-            <span class="section-number">2</span>
-            Queremos conocerte mejor
-          </h3>
-          
-          <div class="form-grid">
-            <div>
-              <label class="form-label">¿Es esta tu primera vivienda?</label>
-              <select v-model="form.respuestas_cliente.primera_vivienda" class="form-select">
-                <option value="SI">Sí, es mi primera casa</option>
-                <option value="NO">No, ya he comprado/construido antes</option>
-                <option value="INVERSION">Es para inversión / negocio</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="form-label">¿En cuánto tiempo te gustaría iniciar?</label>
-              <select v-model="form.respuestas_cliente.tiempo_inicio" class="form-select">
-                <option value="INMEDIATO">Lo más pronto posible (0 a 3 meses)</option>
-                <option value="MEDIANO">En unos meses (3 a 6 meses)</option>
-                <option value="LARGO">Solo estoy planeando (Más de 6 meses)</option>
-              </select>
-            </div>
-          </div>
-        </div>
+        <!-- Las preguntas de perfilamiento se movieron al final -->
 
         <div v-if="errorMsg" class="alert-error">
           {{ errorMsg }}
@@ -342,14 +360,16 @@ const form = reactive({
   lote_id: null,
   lote_precio_real: null,
   respuestas_cliente: {
-    primera_vivienda: 'SI',
-    tiempo_inicio: 'MEDIANO'
+    fuente_ingresos: 'EMPLEADO',
+    metodo_financiacion: 'AHORROS',
+    cuota_inicial: 'MENOS_30'
   }
 })
 
 const loading = ref(false)
 const errorMsg = ref('')
 const resultado = ref(null)
+const mostrandoPerfil = ref(false)
 
 const simulador = reactive({
   porcentaje_inicial: 30
@@ -440,9 +460,10 @@ const calcularCotizacion = async () => {
 
 const resetForm = () => {
   resultado.value = null
+  mostrandoPerfil.value = false
 }
 
-const whatsappLink = computed(() => {
+const whatsappLinkFinal = computed(() => {
   if (!resultado.value) return '#'
   
   // Incluimos datos del simulador si está disponible
@@ -454,8 +475,14 @@ const whatsappLink = computed(() => {
   let msg = `Hola Inmobiliaria Santander. Acabo de cotizar un proyecto con ustedes.
 - Tipo: ${form.tipo_proyecto.replace(/_/g, ' ')}
 - Construcción: ${form.metros_cuadrados}m2
+- Estructura: ${form.tipo_estructura.replace(/_/g, ' ')}
 - Inversión Total Estimada: ${resultado.value.desglose.costo_total}
 - Presupuesto planeado: ${formatCurrency(form.presupuesto_cliente)}${txtFinanciero}
+
+*Perfil del Cliente:*
+- Ingresos: ${form.respuestas_cliente.fuente_ingresos}
+- Financiación: ${form.respuestas_cliente.metodo_financiacion}
+- Ahorros: ${form.respuestas_cliente.cuota_inicial}
 
 Me interesa conversar sobre este proyecto y los acuerdos de pago.`
   return `https://wa.me/3175192043?text=${encodeURIComponent(msg)}`
