@@ -263,6 +263,66 @@
       </div>
     </section>
 
+    <!-- Recorrido de Proyecto (Showcase) -->
+    <section class="showcase-section">
+      <div class="showcase-content">
+        <div class="showcase-header">
+          <span class="section-badge-center">Proyecto 100% Terminado</span>
+          <h2 class="section-title-dark text-center">Recorrido: Casa Moderna Familiar</h2>
+          <p class="showcase-subtitle">
+            Conoce los detalles de esta hermosa casa diseñada y construida a la medida. Un recorrido desde la fachada principal hasta sus áreas privadas.
+          </p>
+        </div>
+
+        <div class="showcase-gallery">
+          <!-- 1. Fachada -->
+          <div class="showcase-item">
+            <img src="/images/proyecto_fachada.jpg" alt="Fachada Moderna" class="showcase-img">
+            <div class="showcase-info">
+              <h3 class="showcase-item-title">1. Fachada Principal</h3>
+              <p class="showcase-item-text">Diseño contemporáneo de un piso con acabados en fachaleta de piedra oscura, iluminación LED indirecta bidireccional y un amplio portón corredizo de máxima seguridad.</p>
+            </div>
+          </div>
+
+          <!-- 2. Sala -->
+          <div class="showcase-item">
+            <img src="/images/proyecto_sala_cocina.jpg" alt="Sala de Estar" class="showcase-img">
+            <div class="showcase-info">
+              <h3 class="showcase-item-title">2. Zona Social (Concepto Abierto)</h3>
+              <p class="showcase-item-text">Espacios integrados y muy luminosos, con pisos en porcelanato tipo mármol brillante de gran formato y ventanales amplios que garantizan ventilación natural fresca.</p>
+            </div>
+          </div>
+
+          <!-- 3. Cocina -->
+          <div class="showcase-item">
+            <img src="/images/proyecto_cocina_isla.jpg" alt="Cocina Integral" class="showcase-img">
+            <div class="showcase-info">
+              <h3 class="showcase-item-title">3. Cocina Integral con Isla</h3>
+              <p class="showcase-item-text">Mobiliario de techo a piso en madera oscura, mesones elegantes y salpicadero en formato completo. Destaca su hermosa isla central revestida con panel ranurado decorativo y lámparas colgantes.</p>
+            </div>
+          </div>
+
+          <!-- 4. Pasillos -->
+          <div class="showcase-item">
+            <img src="/images/proyecto_pasillo.jpg" alt="Pasillo y Puertas" class="showcase-img">
+            <div class="showcase-info">
+              <h3 class="showcase-item-title">4. Corredores y Accesos</h3>
+              <p class="showcase-item-text">Puertas de madera en tono natural, techos falsos en drywall con luz difusa cálida y cambio de piso a cerámica texturizada tipo madera, brindando mayor calidez al entrar a las habitaciones.</p>
+            </div>
+          </div>
+
+          <!-- 5. Baño -->
+          <div class="showcase-item">
+            <img src="/images/proyecto_bano.jpg" alt="Baño de Lujo" class="showcase-img">
+            <div class="showcase-info">
+              <h3 class="showcase-item-title">5. Baños con Acabados de Lujo</h3>
+              <p class="showcase-item-text">Enchape de piso a techo en formato oscuro tipo pizarra, cabina en vidrio templado con perfilería negra, grifería de ducha tipo torre y un moderno nicho iluminado para artículos de aseo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Call To Action (Cotizador) -->
     <section class="cta-section">
       <div class="cta-content">
@@ -854,6 +914,44 @@ const formatCurrency = (val) => {
 }
 .stat-label {
   @apply text-lg font-medium text-slate-500;
+}
+
+/* Showcase Section */
+.showcase-section {
+  @apply py-24 bg-white border-t border-slate-100;
+}
+.showcase-content {
+  @apply max-w-7xl mx-auto px-6 lg:px-8;
+}
+.showcase-header {
+  @apply mb-16 max-w-3xl mx-auto;
+}
+.showcase-subtitle {
+  @apply text-center text-slate-500 mt-4 text-lg font-light;
+}
+.showcase-gallery {
+  @apply flex flex-col gap-16;
+}
+.showcase-item {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-slate-50 p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm transition-shadow hover:shadow-lg;
+}
+.showcase-item:nth-child(even) {
+  @apply lg:-scale-x-100; /* Mirror the layout for even items so image is on right */
+}
+.showcase-item:nth-child(even) > * {
+  @apply lg:-scale-x-100; /* Un-mirror the inner content */
+}
+.showcase-img {
+  @apply w-full h-[400px] object-cover rounded-2xl shadow-md;
+}
+.showcase-info {
+  @apply px-4 lg:px-10;
+}
+.showcase-item-title {
+  @apply text-2xl font-bold text-slate-900 mb-4;
+}
+.showcase-item-text {
+  @apply text-slate-600 leading-relaxed text-lg;
 }
 
 /* CTA Section */
