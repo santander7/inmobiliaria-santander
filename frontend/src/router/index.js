@@ -71,6 +71,12 @@ const router = createRouter({
           name: 'Añadir Obra Entregada',
           component: () => import('../views/AddProyecto.vue'),
           meta: { isAdmin: true }
+        },
+        {
+          path: 'admin/edit-proyecto/:id',
+          name: 'Editar Obra Entregada',
+          component: () => import('../views/EditProyecto.vue'),
+          meta: { isAdmin: true }
         }
       ]
     }

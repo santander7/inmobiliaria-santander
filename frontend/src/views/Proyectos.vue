@@ -32,6 +32,7 @@
               </td>
               <td class="table-cell font-bold text-dark">{{ proyecto.titulo }}</td>
               <td class="table-cell">
+                <button @click="$router.push(`/dashboard/admin/edit-proyecto/${proyecto._id}`)" class="text-blue-500 font-bold hover:text-blue-700 mr-4">Editar</button>
                 <button @click="deleteProyecto(proyecto._id)" class="text-red-500 font-bold hover:text-red-700">Eliminar</button>
               </td>
             </tr>
