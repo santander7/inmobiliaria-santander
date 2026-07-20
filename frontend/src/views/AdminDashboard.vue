@@ -45,6 +45,10 @@
             <span class="action-text">Gestión de Usuarios</span>
             <span class="action-icon icon-orange">→</span>
           </button>
+          <button @click="$router.push('/dashboard/admin/proyectos')" class="action-btn action-primary">
+            <span class="action-text">Gestión de Obras Entregadas</span>
+            <span class="action-icon icon-primary">🏠</span>
+          </button>
         </div>
       </div>
     </div>

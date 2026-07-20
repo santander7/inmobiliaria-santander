@@ -507,64 +507,33 @@ import api from '../services/api'
 
 const scrolled = ref(false)
 const propiedadesReales = ref([])
+const obrasEntregadas = ref([])
 const cargando = ref(true)
+const cargandoProyectos = ref(true)
 
-// Portfolio Data
-const obrasEntregadas = ref([
-  {
-    id: 1,
-    titulo: 'Casa Moderna Esquinera (VENDIDA)',
-    descripcion: 'Hermosa casa esquinera de 8x20m, 100% terminada y con plancha. Excelente distribución de espacios, iluminación natural, garaje y acabados de lujo.',
-    imagenPrincipal: '/images/proyecto_fachada.jpg',
-    detalles: [
-      {
-        titulo: '1. Fachada Principal y Garaje',
-        texto: 'Diseño contemporáneo en lote esquinero de 8x20m con acabados en fachaleta de piedra oscura, iluminación LED indirecta bidireccional y un amplio portón corredizo de máxima seguridad para el garaje.',
-        imagen: '/images/proyecto_fachada.jpg'
-      },
-      {
-        titulo: '2. Zona Social (Concepto Abierto)',
-        texto: 'Espacios integrados y muy luminosos gracias a su ubicación esquinera. Pisos en porcelanato tipo mármol brillante de gran formato y ventanales amplios que garantizan ventilación natural fresca.',
-        imagen: '/images/proyecto_sala_cocina.jpg'
-      },
-      {
-        titulo: '3. Cocina Integral con Isla (Vista 1)',
-        texto: 'Mobiliario de techo a piso en madera oscura, mesones elegantes y salpicadero en formato completo. Destaca su hermosa isla central revestida con panel ranurado decorativo y lámparas colgantes.',
-        imagen: '/images/proyecto_cocina_isla.jpg'
-      },
-      {
-        titulo: '4. Cocina Integral (Vista 2)',
-        texto: 'Diseño inteligente aprovechando cada rincón. Excelente iluminación sobre las superficies de trabajo y ventanal directo hacia el exterior.',
-        imagen: '/images/proyecto_cocina_2.jpg'
-      },
-      {
-        titulo: '5. Corredores y Accesos',
-        texto: 'Puertas de madera en tono natural, techos falsos en drywall con luz difusa cálida y cambio de piso a cerámica texturizada tipo madera, brindando mayor calidez al entrar a las habitaciones.',
-        imagen: '/images/proyecto_pasillo.jpg'
-      },
-      {
-        titulo: '6. Distribución Interior',
-        texto: 'Amplios espacios bien distribuidos que conectan las habitaciones principales, garantizando privacidad y flujo de aire constante.',
-        imagen: '/images/proyecto_pasillo_2.jpg'
-      },
-      {
-        titulo: '7. Baños con Acabados de Lujo (Vista 1)',
-        texto: 'Enchape de piso a techo en formato oscuro tipo pizarra, cabina en vidrio templado con perfilería negra, grifería de ducha tipo torre y un moderno nicho iluminado para artículos de aseo.',
-        imagen: '/images/proyecto_bano.jpg'
-      },
-      {
-        titulo: '8. Baños (Vista 2)',
-        texto: 'Espejos con luz LED perimetral, lavamanos tipo bowl sobre mueble flotante y hermosos contrastes con los enchapes tipo mármol.',
-        imagen: '/images/proyecto_bano_2.jpg'
-      },
-      {
-        titulo: '9. Patio Interior / Zona de Ropas',
-        texto: 'Hermoso diseño con pérgolas que permiten entrada de luz, fachaleta de piedra en las paredes y piso texturizado antideslizante, creando un ambiente fresco y privado.',
-        imagen: '/images/proyecto_patio.jpg'
-      }
-    ]
+// Fetch Propiedades (Para venta)
+const cargarPropiedades = async () => {
+  try {
+    const res = await api.get('/propiedades')
+    propiedadesReales.value = res.data.filter(p => p.estado === 'DISPONIBLE')
+  } catch (error) {
+    console.error("Error cargando inventario", error)
+  } finally {
+    cargando.value = false
   }
-])
+}
+
+// Fetch Proyectos Entregados
+const cargarProyectos = async () => {
+  try {
+    const res = await api.get('/proyectos')
+    obrasEntregadas.value = res.data
+  } catch (error) {
+    console.error('Error al cargar proyectos', error)
+  } finally {
+    cargandoProyectos.value = false
+  }
+}
 
 const obraActiva = ref(null)
 
@@ -640,20 +609,10 @@ const mocks = [
   }
 ]
 
-const cargarPropiedades = async () => {
-  try {
-    const res = await api.get('/propiedades')
-    propiedadesReales.value = res.data.filter(p => p.estado === 'DISPONIBLE')
-  } catch (error) {
-    console.error("Error cargando inventario", error)
-  } finally {
-    cargando.value = false
-  }
-}
-
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
   cargarPropiedades()
+  cargarProyectos()
 
   // Configurar IntersectionObserver para iniciar cronómetro
   observer = new IntersectionObserver((entries) => {

@@ -55,7 +55,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import api from '../services/api';
 
 const users = ref([]);
 const loading = ref(true);
@@ -63,10 +63,7 @@ const error = ref(null);
 
 const fetchUsers = async () => {
   try {
-    const token = localStorage.getItem('token');
-    const response = await axios.get('http://localhost:3000/api/auth/users', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await api.get('/auth/users');
     users.value = response.data;
   } catch (err) {
     error.value = 'Error al cargar los usuarios. Asegúrate de ser administrador.';

@@ -29,10 +29,14 @@ app.get('/', (req, res) => {
 const authRoutes = require('./routes/auth.routes');
 const propiedadesRoutes = require('./routes/propiedades.routes');
 const cotizacionesRoutes = require('./routes/cotizaciones.routes');
+const uploadRoutes = require('./routes/upload.routes');
+const proyectosRoutes = require('./routes/proyectos.routes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/propiedades', propiedadesRoutes);
 app.use('/api/cotizaciones', cotizacionesRoutes);
+app.use('/api/upload', uploadRoutes);
+app.use('/api/proyectos', proyectosRoutes);
 
 // Socket.io
 io.on('connection', (socket) => {

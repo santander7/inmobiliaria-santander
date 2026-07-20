@@ -59,6 +59,18 @@ const router = createRouter({
           name: 'Gestión de Usuarios',
           component: Users,
           meta: { isAdmin: true }
+        },
+        {
+          path: 'admin/proyectos',
+          name: 'Gestión de Obras Entregadas',
+          component: () => import('../views/Proyectos.vue'),
+          meta: { isAdmin: true }
+        },
+        {
+          path: 'admin/add-proyecto',
+          name: 'Añadir Obra Entregada',
+          component: () => import('../views/AddProyecto.vue'),
+          meta: { isAdmin: true }
         }
       ]
     }
