@@ -263,65 +263,57 @@
       </div>
     </section>
 
-    <!-- Recorrido de Proyecto (Showcase) -->
+    <!-- Portafolio de Obras -->
     <section class="showcase-section">
       <div class="showcase-content">
         <div class="showcase-header">
-          <span class="section-badge-center">Proyecto 100% Terminado</span>
-          <h2 class="section-title-dark text-center">Recorrido: Casa Moderna Familiar</h2>
+          <span class="section-badge-center">Proyectos 100% Terminados</span>
+          <h2 class="section-title-dark text-center">Nuestras Obras Entregadas</h2>
           <p class="showcase-subtitle">
-            Conoce los detalles de esta hermosa casa diseñada y construida a la medida. Un recorrido desde la fachada principal hasta sus áreas privadas.
+            Conoce la calidad de nuestros acabados y el nivel de detalle en nuestras construcciones. Haz clic en un proyecto para ver el recorrido completo.
           </p>
         </div>
 
-        <div class="showcase-gallery">
-          <!-- 1. Fachada -->
-          <div class="showcase-item">
-            <img src="/images/proyecto_fachada.jpg" alt="Fachada Moderna" class="showcase-img">
-            <div class="showcase-info">
-              <h3 class="showcase-item-title">1. Fachada Principal</h3>
-              <p class="showcase-item-text">Diseño contemporáneo de un piso con acabados en fachaleta de piedra oscura, iluminación LED indirecta bidireccional y un amplio portón corredizo de máxima seguridad.</p>
+        <div class="obras-grid">
+          <div v-for="obra in obrasEntregadas" :key="obra.id" class="obra-card group">
+            <div class="obra-img-box">
+              <img :src="obra.imagenPrincipal" :alt="obra.titulo" class="obra-img">
+              <div class="obra-overlay">
+                <button @click="abrirModalObra(obra)" class="btn-ver-obra">
+                  Ver Recorrido Completo
+                </button>
+              </div>
             </div>
-          </div>
-
-          <!-- 2. Sala -->
-          <div class="showcase-item">
-            <img src="/images/proyecto_sala_cocina.jpg" alt="Sala de Estar" class="showcase-img">
-            <div class="showcase-info">
-              <h3 class="showcase-item-title">2. Zona Social (Concepto Abierto)</h3>
-              <p class="showcase-item-text">Espacios integrados y muy luminosos, con pisos en porcelanato tipo mármol brillante de gran formato y ventanales amplios que garantizan ventilación natural fresca.</p>
-            </div>
-          </div>
-
-          <!-- 3. Cocina -->
-          <div class="showcase-item">
-            <img src="/images/proyecto_cocina_isla.jpg" alt="Cocina Integral" class="showcase-img">
-            <div class="showcase-info">
-              <h3 class="showcase-item-title">3. Cocina Integral con Isla</h3>
-              <p class="showcase-item-text">Mobiliario de techo a piso en madera oscura, mesones elegantes y salpicadero en formato completo. Destaca su hermosa isla central revestida con panel ranurado decorativo y lámparas colgantes.</p>
-            </div>
-          </div>
-
-          <!-- 4. Pasillos -->
-          <div class="showcase-item">
-            <img src="/images/proyecto_pasillo.jpg" alt="Pasillo y Puertas" class="showcase-img">
-            <div class="showcase-info">
-              <h3 class="showcase-item-title">4. Corredores y Accesos</h3>
-              <p class="showcase-item-text">Puertas de madera en tono natural, techos falsos en drywall con luz difusa cálida y cambio de piso a cerámica texturizada tipo madera, brindando mayor calidez al entrar a las habitaciones.</p>
-            </div>
-          </div>
-
-          <!-- 5. Baño -->
-          <div class="showcase-item">
-            <img src="/images/proyecto_bano.jpg" alt="Baño de Lujo" class="showcase-img">
-            <div class="showcase-info">
-              <h3 class="showcase-item-title">5. Baños con Acabados de Lujo</h3>
-              <p class="showcase-item-text">Enchape de piso a techo en formato oscuro tipo pizarra, cabina en vidrio templado con perfilería negra, grifería de ducha tipo torre y un moderno nicho iluminado para artículos de aseo.</p>
+            <div class="obra-info">
+              <h3 class="obra-title">{{ obra.titulo }}</h3>
+              <p class="obra-desc">{{ obra.descripcion }}</p>
             </div>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- Modal Recorrido de Obra -->
+    <div v-if="obraActiva" class="obra-modal-backdrop" @click.self="cerrarModalObra">
+      <div class="obra-modal-content">
+        <button @click="cerrarModalObra" class="btn-close-modal">&times;</button>
+        
+        <div class="modal-header">
+          <span class="section-badge-center">Recorrido Fotográfico</span>
+          <h2 class="section-title-dark text-center">{{ obraActiva.titulo }}</h2>
+        </div>
+
+        <div class="showcase-gallery">
+          <div v-for="(detalle, index) in obraActiva.detalles" :key="index" class="showcase-item">
+            <img :src="detalle.imagen" :alt="detalle.titulo" class="showcase-img">
+            <div class="showcase-info">
+              <h3 class="showcase-item-title">{{ detalle.titulo }}</h3>
+              <p class="showcase-item-text">{{ detalle.texto }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Call To Action (Cotizador) -->
     <section class="cta-section">
@@ -516,6 +508,54 @@ import api from '../services/api'
 const scrolled = ref(false)
 const propiedadesReales = ref([])
 const cargando = ref(true)
+
+// Portfolio Data
+const obrasEntregadas = ref([
+  {
+    id: 1,
+    titulo: 'Casa Moderna Familiar',
+    descripcion: 'Diseñada y construida a la medida. Un recorrido desde la fachada principal hasta sus áreas privadas con acabados de lujo.',
+    imagenPrincipal: '/images/proyecto_fachada.jpg',
+    detalles: [
+      {
+        titulo: '1. Fachada Principal',
+        texto: 'Diseño contemporáneo de un piso con acabados en fachaleta de piedra oscura, iluminación LED indirecta bidireccional y un amplio portón corredizo de máxima seguridad.',
+        imagen: '/images/proyecto_fachada.jpg'
+      },
+      {
+        titulo: '2. Zona Social (Concepto Abierto)',
+        texto: 'Espacios integrados y muy luminosos, con pisos en porcelanato tipo mármol brillante de gran formato y ventanales amplios que garantizan ventilación natural fresca.',
+        imagen: '/images/proyecto_sala_cocina.jpg'
+      },
+      {
+        titulo: '3. Cocina Integral con Isla',
+        texto: 'Mobiliario de techo a piso en madera oscura, mesones elegantes y salpicadero en formato completo. Destaca su hermosa isla central revestida con panel ranurado decorativo y lámparas colgantes.',
+        imagen: '/images/proyecto_cocina_isla.jpg'
+      },
+      {
+        titulo: '4. Corredores y Accesos',
+        texto: 'Puertas de madera en tono natural, techos falsos en drywall con luz difusa cálida y cambio de piso a cerámica texturizada tipo madera, brindando mayor calidez al entrar a las habitaciones.',
+        imagen: '/images/proyecto_pasillo.jpg'
+      },
+      {
+        titulo: '5. Baños con Acabados de Lujo',
+        texto: 'Enchape de piso a techo en formato oscuro tipo pizarra, cabina en vidrio templado con perfilería negra, grifería de ducha tipo torre y un moderno nicho iluminado para artículos de aseo.',
+        imagen: '/images/proyecto_bano.jpg'
+      }
+    ]
+  }
+])
+
+const obraActiva = ref(null)
+
+const abrirModalObra = (obra) => {
+  obraActiva.value = obra
+  document.body.style.overflow = 'hidden' // prevent background scrolling
+}
+const cerrarModalObra = () => {
+  obraActiva.value = null
+  document.body.style.overflow = 'auto'
+}
 
 // Variables para el cronómetro de estadísticas
 const statsRef = ref(null)
@@ -924,10 +964,51 @@ const formatCurrency = (val) => {
   @apply max-w-7xl mx-auto px-6 lg:px-8;
 }
 .showcase-header {
-  @apply mb-16 max-w-3xl mx-auto;
+  @apply mb-12 max-w-3xl mx-auto;
 }
 .showcase-subtitle {
   @apply text-center text-slate-500 mt-4 text-lg font-light;
+}
+.obras-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
+}
+.obra-card {
+  @apply bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 transition-all hover:shadow-xl hover:-translate-y-1;
+}
+.obra-img-box {
+  @apply relative h-64 overflow-hidden;
+}
+.obra-img {
+  @apply w-full h-full object-cover transition-transform duration-700 group-hover:scale-110;
+}
+.obra-overlay {
+  @apply absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center;
+}
+.btn-ver-obra {
+  @apply bg-white text-slate-900 px-6 py-3 rounded-full font-semibold text-sm transform translate-y-4 group-hover:translate-y-0 transition-all duration-300;
+}
+.obra-info {
+  @apply p-6 text-center;
+}
+.obra-title {
+  @apply text-xl font-bold text-slate-900 mb-2;
+}
+.obra-desc {
+  @apply text-sm text-slate-500 leading-relaxed;
+}
+
+/* Modal Obra */
+.obra-modal-backdrop {
+  @apply fixed inset-0 z-[100] bg-slate-900/90 backdrop-blur-sm flex items-center justify-center p-4 md:p-10 overflow-y-auto;
+}
+.obra-modal-content {
+  @apply relative bg-white w-full max-w-6xl rounded-3xl p-6 md:p-12 my-auto shadow-2xl;
+}
+.btn-close-modal {
+  @apply absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-2xl text-slate-600 hover:bg-slate-200 hover:text-slate-900 transition-colors;
+}
+.modal-header {
+  @apply mb-12;
 }
 .showcase-gallery {
   @apply flex flex-col gap-16;
