@@ -101,7 +101,7 @@ const uploadMainImage = async (e) => {
   try {
     form.value.imagenPrincipal = await uploadImageToServer(e.target.files[0]);
   } catch (err) {
-    alert('Error al subir imagen');
+    alert('Error al subir imagen: ' + (err.response?.data?.message || err.message));
   } finally {
     uploadingMain.value = false;
   }
@@ -137,7 +137,7 @@ const uploadDetalleImage = async (e, index) => {
   try {
     form.value.detalles[index].imagen = await uploadImageToServer(e.target.files[0]);
   } catch (err) {
-    alert('Error al subir imagen');
+    alert('Error al subir imagen: ' + (err.response?.data?.message || err.message));
   } finally {
     form.value.detalles[index].uploading = false;
   }
