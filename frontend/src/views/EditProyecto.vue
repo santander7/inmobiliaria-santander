@@ -115,12 +115,19 @@ onMounted(() => {
 });
 
 const uploadImageToServer = async (file) => {
-  const formData = new FormData();
-  formData.append('imagen', file);
-  const res = await api.post('/upload', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' }
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = async () => {
+      try {
+        const res = await api.post('/upload', { imagenBase64: reader.result });
+        resolve(res.data.url);
+      } catch (err) {
+        reject(err);
+      }
+    };
+    reader.onerror = error => reject(error);
   });
-  return res.data.url;
 };
 
 const uploadMainImage = async (e) => {
