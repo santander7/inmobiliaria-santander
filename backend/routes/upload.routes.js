@@ -10,9 +10,17 @@ router.post('/', verifyToken, isAdmin, upload.single('imagen'), async (req, res)
       return res.status(400).json({ message: 'No se ha subido ninguna imagen' });
     }
 
-    const b64 = Buffer.from(req.file.buffer).toString('base64');
-    const dataURI = "data:" + req.file.mimetype + ";base64," + b64;
-    const result = await cloudinary.uploader.upload(dataURI, { folder: "inmobiliaria_putumayo_proyectos" });
+    // Upload to Cloudinary using file path
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "inmobiliaria_putumayo_proyectos",
+      resource_type: "auto"
+    });
+
+    // Delete temp file asynchronously
+    const fs = require('fs');
+    fs.unlink(req.file.path, (err) => {
+      if (err) console.error("Failed to delete temp file:", err);
+    });
 
     res.status(200).json({ url: result.secure_url });
   } catch (error) {
