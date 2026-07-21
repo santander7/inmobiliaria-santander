@@ -35,7 +35,11 @@
       <div v-for="(detalle, index) in form.detalles" :key="index" class="detalle-card">
         <div class="flex justify-between items-center mb-4">
           <h4 class="font-bold">Foto #{{ index + 1 }}</h4>
-          <button type="button" @click="removeDetalle(index)" class="text-red-500 font-bold">Quitar</button>
+          <div class="flex gap-3">
+            <button type="button" @click="moveDetalleUp(index)" v-if="index > 0" class="text-blue-500 font-bold hover:text-blue-700">⬆ Subir</button>
+            <button type="button" @click="moveDetalleDown(index)" v-if="index < form.detalles.length - 1" class="text-blue-500 font-bold hover:text-blue-700">⬇ Bajar</button>
+            <button type="button" @click="removeDetalle(index)" class="text-red-500 font-bold hover:text-red-700 ml-2">Quitar</button>
+          </div>
         </div>
         
         <div class="form-group">
@@ -137,6 +141,22 @@ const addDetalle = () => {
 
 const removeDetalle = (index) => {
   form.value.detalles.splice(index, 1);
+};
+
+const moveDetalleUp = (index) => {
+  if (index > 0) {
+    const temp = form.value.detalles[index - 1];
+    form.value.detalles[index - 1] = form.value.detalles[index];
+    form.value.detalles[index] = temp;
+  }
+};
+
+const moveDetalleDown = (index) => {
+  if (index < form.value.detalles.length - 1) {
+    const temp = form.value.detalles[index + 1];
+    form.value.detalles[index + 1] = form.value.detalles[index];
+    form.value.detalles[index] = temp;
+  }
 };
 
 const uploadDetalleImage = async (e, index) => {
