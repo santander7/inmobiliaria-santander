@@ -6,7 +6,7 @@
       
       <!-- Aviso de Venta/Compra -->
       <div class="aviso-badge">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#0F172A]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#003366]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
         Nosotros te vendemos el lote, o si ya tienes uno, ¡te lo compramos!
       </div>
     </div>
@@ -561,7 +561,7 @@ Me interesa conversar sobre este proyecto y los acuerdos de pago.`
 }
 
 .resultado-wrapper {
-  @apply bg-gradient-to-br from-[#0F172A] to-slate-800 rounded-3xl p-1 shadow-2xl;
+  @apply bg-gradient-to-br from-[#003366] to-slate-800 rounded-3xl p-1 shadow-2xl;
 }
 .resultado-card {
   @apply bg-white rounded-[23px] p-4 sm:p-6 md:p-8 relative overflow-hidden;
@@ -573,7 +573,7 @@ Me interesa conversar sobre este proyecto y los acuerdos de pago.`
   @apply flex items-center gap-4 mb-6 relative z-10;
 }
 .resultado-icon-box {
-  @apply w-12 h-12 bg-[#0F172A] text-white rounded-lg flex items-center justify-center shadow-md;
+  @apply w-12 h-12 bg-[#003366] text-white rounded-lg flex items-center justify-center shadow-md;
 }
 .resultado-title {
   @apply text-2xl font-extrabold text-slate-900;
@@ -602,7 +602,7 @@ Me interesa conversar sobre este proyecto y los acuerdos de pago.`
   @apply text-xs font-bold text-slate-500 uppercase tracking-widest mb-2;
 }
 .total-value {
-  @apply text-5xl font-black text-[#0F172A] mb-3;
+  @apply text-5xl font-black text-[#003366] mb-3;
 }
 .tiempo-obra-badge {
   @apply text-sm text-slate-500 font-medium bg-white px-4 py-1.5 rounded-full border border-slate-100 mb-6;
@@ -650,7 +650,7 @@ Me interesa conversar sobre este proyecto y los acuerdos de pago.`
   @apply bg-slate-100 border border-slate-200 p-4 md:p-6 rounded-xl mb-8 relative z-10 flex flex-col sm:flex-row gap-4;
 }
 .acuerdos-icon {
-  @apply text-[#0F172A] mt-1;
+  @apply text-[#003366] mt-1;
 }
 .acuerdos-title {
   @apply font-bold text-slate-900 mb-1 text-sm uppercase tracking-wider;
@@ -666,7 +666,7 @@ Me interesa conversar sobre este proyecto y los acuerdos de pago.`
   @apply px-6 py-3 font-bold text-slate-500 hover:text-slate-900 transition-colors text-sm uppercase tracking-wider;
 }
 .btn-whatsapp {
-  @apply px-8 py-3 bg-[#0F172A] hover:bg-slate-800 text-white font-bold text-sm uppercase tracking-wider rounded-xl shadow-lg transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2;
+  @apply px-8 py-3 bg-[#003366] hover:bg-slate-800 text-white font-bold text-sm uppercase tracking-wider rounded-xl shadow-lg transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2;
 }
 
 .form-wrapper {
@@ -694,7 +694,7 @@ Me interesa conversar sobre este proyecto y los acuerdos de pago.`
   @apply block text-xs font-bold text-slate-500 uppercase tracking-wider;
 }
 .form-select, .form-input {
-  @apply w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-slate-800 focus:ring-1 focus:ring-[#0F172A] focus:border-[#0F172A] transition-all outline-none text-sm font-medium;
+  @apply w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-slate-800 focus:ring-1 focus:ring-[#003366] focus:border-[#003366] transition-all outline-none text-sm font-medium;
 }
 
 .tooltip-container {
@@ -704,7 +704,7 @@ Me interesa conversar sobre este proyecto y los acuerdos de pago.`
   @apply inline-flex items-center justify-center w-5 h-5 bg-slate-200 text-slate-600 rounded-full text-[10px] font-bold;
 }
 .tooltip-content {
-  @apply absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 bg-[#0F172A] text-white text-xs p-4 rounded-lg shadow-xl z-20 font-medium;
+  @apply absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 bg-[#003366] text-white text-xs p-4 rounded-lg shadow-xl z-20 font-medium;
 }
 .tooltip-title {
   @apply text-slate-300 uppercase tracking-wider text-[10px] block mb-1;
@@ -714,7 +714,7 @@ Me interesa conversar sobre este proyecto y los acuerdos de pago.`
   @apply bg-red-50 text-red-500 p-4 rounded-lg text-sm font-medium border border-red-100 text-center;
 }
 .btn-submit {
-  @apply w-full bg-[#0F172A] hover:bg-slate-800 text-white font-bold py-4 rounded-lg shadow-lg transition-all transform hover:-translate-y-1 disabled:opacity-70 uppercase tracking-widest text-sm;
+  @apply w-full bg-[#003366] hover:bg-slate-800 text-white font-bold py-4 rounded-lg shadow-lg transition-all transform hover:-translate-y-1 disabled:opacity-70 uppercase tracking-widest text-sm;
 }
 
 .faq-title {

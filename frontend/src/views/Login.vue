@@ -1,51 +1,72 @@
 <template>
   <div class="auth-page">
-    <div class="background-blobs">
-      <div class="blob blob-1"></div>
-      <div class="blob blob-2"></div>
-    </div>
+    <div class="auth-split">
+      <!-- Lado Izquierdo: Formulario -->
+      <div class="auth-form-side">
+        <div class="auth-container">
+          <div class="logo-area" @click="$router.push('/')">
+            <div class="logo-icon">S</div>
+            <span class="logo-text">Inmobiliaria Santander</span>
+          </div>
 
-    <div class="auth-container">
-      <div class="auth-card glass-panel">
-        <div class="logo-icon mx-auto"></div>
-        <h2>Bienvenido de nuevo</h2>
-        <p class="subtitle">Inicia sesión en tu cuenta</p>
+          <div class="header-text">
+            <h2>Bienvenido al módulo de ingreso</h2>
+            <p class="subtitle">Inicia sesión con tus credenciales corporativas.</p>
+          </div>
 
-        <!-- Mensaje de Marketing si viene del Cotizador -->
-        <div v-if="isRedirectFromCotizador" class="alert-marketing">
-          <span class="icon">✨</span> ¡Crea una cuenta o inicia sesión gratis para usar nuestro Cotizador Inteligente y guardar tu historial!
+          <div v-if="isRedirectFromCotizador" class="alert-marketing">
+            <span class="icon">🏢</span> Ingresa para acceder al Cotizador y guardar tu historial inmobiliario.
+          </div>
+
+          <div v-if="errorMsg" class="alert-error">
+            <span class="icon">⚠️</span> {{ errorMsg }}
+          </div>
+
+          <form @submit.prevent="login" class="form-content">
+            <div class="form-group">
+              <label>Correo Electrónico</label>
+              <div class="input-wrapper">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <input v-model="email" type="email" placeholder="ejemplo@correo.com" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="label-row">
+                <label>Contraseña</label>
+                <a href="#" @click.prevent="alert('Funcionalidad en construcción')" class="forgot-link">¿Olvidaste tu contraseña?</a>
+              </div>
+              <div class="input-wrapper">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <input v-model="password" type="password" placeholder="••••••••" required />
+              </div>
+            </div>
+
+            <button type="submit" class="btn-corporate" :disabled="loading">
+              <span v-if="loading" class="spinner"></span>
+              {{ loading ? "Verificando..." : "SIGUIENTE" }}
+            </button>
+          </form>
+
+          <p class="footer-text">
+            ¿No estás registrado en nuestro sistema?
+            <router-link :to="{ path: '/registro', query: { redirect: route.query.redirect } }" class="link">Crear cuenta</router-link>
+          </p>
         </div>
-
-        <!-- ERROR -->
-        <div v-if="errorMsg" class="alert-error">
-          <span class="icon">⚠️</span> {{ errorMsg }}
-        </div>
-
-        <div class="form-group">
-          <label>Correo Electrónico</label>
-          <div class="input-wrapper">
-            <span class="input-icon">✉️</span>
-            <input v-model="email" type="email" placeholder="ejemplo@correo.com" />
+      </div>
+      
+      <!-- Lado Derecho: Imagen Corporativa (Inspirado en Jaramillo Mora / Alianza) -->
+      <div class="auth-image-side">
+        <div class="overlay"></div>
+        <div class="image-content">
+          <div class="corporate-banner">
+            <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
+            <div class="banner-text">
+              <h3>Por su seguridad, <strong>evite realizar transacciones</strong> en lugares de conexión pública</h3>
+              <p>y procure utilizar siempre sitios confiables.</p>
+            </div>
           </div>
         </div>
-
-        <div class="form-group">
-          <label>Contraseña</label>
-          <div class="input-wrapper">
-            <span class="input-icon">🔒</span>
-            <input v-model="password" type="password" placeholder="••••••••" @keyup.enter="login" />
-          </div>
-        </div>
-
-        <button class="btn-primary btn-block" @click="login" :disabled="loading">
-          <span v-if="loading" class="spinner"></span>
-          {{ loading ? "Ingresando..." : "Ingresar" }}
-        </button>
-
-        <p class="footer-text">
-          ¿No tienes cuenta?
-          <router-link :to="{ path: '/registro', query: { redirect: route.query.redirect } }" class="link">Regístrate aquí</router-link>
-        </p>
       </div>
     </div>
   </div>
@@ -103,135 +124,150 @@ const login = async () => {
 .auth-page {
   min-height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  background-color: var(--bg-primary);
+  background-color: #ffffff;
+  font-family: 'Arial', sans-serif; /* Tipografía más corporativa */
 }
 
-.background-blobs {
-  position: absolute;
+.auth-split {
+  display: flex;
   width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
 }
 
-.blob {
-  position: absolute;
-  filter: blur(80px);
-  opacity: 0.5;
-  border-radius: 50%;
-  animation: float 8s infinite alternate ease-in-out;
-}
-
-.blob-1 {
-  top: -10%; left: -10%; width: 500px; height: 500px; background: var(--primary-light);
-}
-
-.blob-2 {
-  bottom: -10%; right: -10%; width: 600px; height: 600px; background: rgba(236, 72, 153, 0.2); animation-delay: -4s;
-}
-
-@keyframes float {
-  from { transform: translate(0, 0); }
-  to { transform: translate(30px, -30px); }
+/* Lado Izquierdo (Formulario) */
+.auth-form-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px;
+  position: relative;
 }
 
 .auth-container {
-  position: relative;
-  z-index: 10;
   width: 100%;
-  max-width: 420px;
-  padding: 20px;
-  animation: scaleUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 440px;
+  margin: 0 auto;
+  animation: fadeIn 0.6s ease-out;
 }
 
-@keyframes scaleUp {
-  from { opacity: 0; transform: scale(0.95) translateY(20px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.auth-card {
-  padding: 3rem 2.5rem;
-  border-radius: var(--radius-xl);
-  text-align: center;
-  background: white;
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+  cursor: pointer;
 }
 
 .logo-icon {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  border-radius: 14px;
-  margin: 0 auto 1.5rem;
-  box-shadow: var(--shadow-md);
-}
-
-h2 {
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: var(--text-main);
-  margin-bottom: 0.5rem;
-}
-
-.subtitle {
-  color: var(--text-muted);
-  margin-bottom: 2rem;
-  font-size: 0.95rem;
-}
-
-.alert-error {
-  background: var(--danger-light);
-  color: var(--danger-hover);
-  padding: 0.75rem;
-  border-radius: var(--radius-md);
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
+  width: 40px;
+  height: 40px;
+  background: #003366; /* Azul profundo corporativo */
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  color: white;
+  font-weight: 800;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 10px rgba(0, 51, 102, 0.3);
+}
+
+.logo-text {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #003366;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.header-text h2 {
+  font-size: 2rem;
+  font-weight: 400;
+  color: #003366;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.header-text .subtitle {
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 32px;
+}
+
+/* Alertas */
+.alert-error {
+  background: #fff0f0;
+  color: #cc0000;
+  padding: 12px 16px;
+  border-left: 4px solid #cc0000;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   animation: shake 0.4s ease-in-out;
 }
 
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
 }
 
 .alert-marketing {
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(236, 72, 153, 0.1));
-  color: var(--primary);
-  padding: 1rem;
-  border-radius: var(--radius-md);
-  font-size: 0.9rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
+  background: #f0f7ff;
+  color: #0055a4;
+  padding: 14px;
+  border-left: 4px solid #0055a4;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 24px;
   display: flex;
-  align-items: flex-start;
-  text-align: left;
+  align-items: center;
   gap: 10px;
-  border: 1px solid rgba(79, 70, 229, 0.2);
 }
-.alert-marketing .icon {
-  font-size: 1.2rem;
+
+/* Formulario */
+.form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .form-group {
-  text-align: left;
-  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
 }
 
 label {
-  display: block;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--text-main);
-  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #0055a4;
+}
+
+.forgot-link {
+  font-size: 0.85rem;
+  color: #0055a4;
+  text-decoration: none;
+  font-weight: 400;
+  transition: color 0.2s;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
 }
 
 .input-wrapper {
@@ -243,63 +279,67 @@ label {
 .input-icon {
   position: absolute;
   left: 14px;
-  font-size: 1.1rem;
-  color: var(--text-muted);
+  width: 20px;
+  height: 20px;
+  color: #999;
   pointer-events: none;
 }
 
 input {
   width: 100%;
-  padding: 0.85rem 1rem 0.85rem 2.5rem;
-  border: 1px solid rgba(0,0,0,0.1);
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.8);
+  padding: 12px 14px 12px 42px;
+  border: none;
+  border-bottom: 1px solid #ccc;
   font-size: 1rem;
-  color: var(--text-main);
-  transition: var(--transition-fast);
+  color: #333;
+  transition: all 0.2s ease;
+  background-color: transparent;
 }
 
 input:focus {
   outline: none;
-  border-color: var(--primary);
-  background: white;
-  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+  border-bottom-color: #0055a4;
+  background-color: #f9fbfd;
 }
 
-.btn-primary {
-  background: linear-gradient(135deg, var(--primary), #6366f1);
-  color: white;
-  border: none;
-  padding: 0.85rem;
-  border-radius: var(--radius-md);
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: var(--transition-normal);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
+input::placeholder {
+  color: #aaa;
 }
 
-.btn-block {
-  width: 100%;
-  margin-top: 1rem;
+.btn-corporate {
+  background-color: #0055a4 !important;
+  color: white !important;
+  border: none !important;
+  padding: 14px !important;
+  font-size: 1rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 1px !important;
+  cursor: pointer !important;
+  transition: background 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  margin-top: 10px !important;
+  text-transform: uppercase !important;
 }
 
-.btn-primary:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md), var(--shadow-glow);
+.btn-corporate:hover:not(:disabled) {
+  background-color: #003366 !important;
 }
 
-.btn-primary:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
+.btn-corporate:active:not(:disabled) {
+  transform: translateY(1px) !important;
+}
+
+.btn-corporate:disabled {
+  background-color: #ccc !important;
+  cursor: not-allowed !important;
 }
 
 .spinner {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border: 2px solid rgba(255,255,255,0.3);
   border-top-color: white;
   border-radius: 50%;
@@ -311,16 +351,68 @@ input:focus {
 }
 
 .footer-text {
-  margin-top: 2rem;
-  font-size: 0.9rem;
-  color: var(--text-muted);
+  margin-top: 32px;
+  font-size: 0.95rem;
+  color: #666;
+  text-align: center;
 }
 
 .link {
-  color: var(--primary);
-  font-weight: 700;
+  color: #0055a4;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
 }
+
 .link:hover {
   text-decoration: underline;
+}
+
+/* Lado Derecho (Azul Sólido Corporativo) */
+.auth-image-side {
+  flex: 1.2;
+  position: relative;
+  background-color: #003366; /* Azul Institucional */
+  display: none; /* Oculto en móviles */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 900px) {
+  .auth-image-side {
+    display: flex;
+  }
+}
+
+.corporate-banner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  max-width: 400px;
+  color: white;
+}
+
+.shield-icon {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+}
+
+.banner-text h3 {
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.4;
+  margin: 0 0 5px 0;
+}
+
+.banner-text h3 strong {
+  font-weight: 700;
+}
+
+.banner-text p {
+  font-size: 0.95rem;
+  margin: 0;
+  color: #99badd;
 }
 </style>

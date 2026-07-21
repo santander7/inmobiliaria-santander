@@ -7,6 +7,8 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, enum: ['USER', 'ADMIN'], default: 'USER' },
   activo: { type: Boolean, default: true },
+  isVerified: { type: Boolean, default: false },
+  verificationToken: { type: String },
   favoritos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Propiedad' }]
 }, { timestamps: true });
 

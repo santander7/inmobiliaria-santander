@@ -105,13 +105,13 @@ const routeName = computed(() => {
   @apply flex-shrink-0 flex items-center gap-3 cursor-pointer;
 }
 .logo-icon {
-  @apply w-10 h-10 bg-[#0F172A] rounded-lg flex items-center justify-center text-[#E2E8F0] font-serif font-bold text-xl;
+  @apply w-10 h-10 bg-[#003366] rounded-lg flex items-center justify-center text-[#E2E8F0] font-serif font-bold text-xl;
 }
 .logo-text {
   @apply flex flex-col;
 }
 .logo-title {
-  @apply font-bold text-lg tracking-tight text-[#0F172A] uppercase leading-none;
+  @apply font-bold text-lg tracking-tight text-[#003366] uppercase leading-none;
 }
 .logo-subtitle {
   @apply font-light text-xs tracking-[0.2em] text-[#64748B] uppercase;
@@ -121,10 +121,10 @@ const routeName = computed(() => {
   @apply hidden md:flex space-x-10;
 }
 .nav-link {
-  @apply text-[13px] uppercase tracking-widest font-semibold text-slate-500 hover:text-[#0F172A] transition-colors;
+  @apply text-[13px] uppercase tracking-widest font-semibold text-slate-500 hover:text-[#003366] transition-colors;
 }
 .nav-link-active {
-  @apply text-[#0F172A] border-b-2 border-[#0F172A];
+  @apply text-[#003366] border-b-2 border-[#003366];
 }
 
 .user-actions {

@@ -155,7 +155,7 @@
         <!-- Etapa 2: En progreso -->
         <div class="timeline-item">
           <div class="timeline-dot dot-progress"></div>
-          <p class="timeline-status text-[#0F172A]">Fase 2 • En Progreso (60%)</p>
+          <p class="timeline-status text-[#003366]">Fase 2 • En Progreso (60%)</p>
           <h4 class="timeline-title">Cimientos y Estructura</h4>
           <p class="timeline-description">Estamos levantando los muros principales y fundiendo las columnas según las normas de sismo resistencia.</p>
           <div class="gallery-grid">
@@ -264,7 +264,7 @@ const whatsappAsesorLink = computed(() => {
   @apply bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-5 hover:shadow-md transition-shadow cursor-pointer;
 }
 .stat-icon-wrapper {
-  @apply w-14 h-14 bg-slate-50 text-slate-400 group-hover:text-[#0F172A] group-hover:bg-slate-100 rounded-xl flex items-center justify-center transition-colors border border-slate-100;
+  @apply w-14 h-14 bg-slate-50 text-slate-400 group-hover:text-[#003366] group-hover:bg-slate-100 rounded-xl flex items-center justify-center transition-colors border border-slate-100;
 }
 .stat-label {
   @apply text-xs uppercase tracking-wider text-slate-400 font-bold;
@@ -274,7 +274,7 @@ const whatsappAsesorLink = computed(() => {
 }
 
 .interactive-module {
-  @apply bg-[#0F172A] rounded-[2rem] p-10 text-white relative overflow-hidden shadow-2xl border border-slate-800;
+  @apply bg-[#003366] rounded-[2rem] p-10 text-white relative overflow-hidden shadow-2xl border border-slate-800;
 }
 .module-decor {
   @apply absolute -right-20 -top-20 w-96 h-96 bg-slate-500/10 rounded-full blur-3xl pointer-events-none;
@@ -299,7 +299,7 @@ const whatsappAsesorLink = computed(() => {
   @apply text-slate-400 text-lg mb-8 leading-relaxed font-light;
 }
 .btn-primary {
-  @apply inline-flex items-center gap-3 bg-white text-[#0F172A] hover:bg-slate-200 font-bold py-3.5 px-8 rounded-xl transition-all shadow-xl text-sm uppercase tracking-wider;
+  @apply inline-flex items-center gap-3 bg-white text-[#003366] hover:bg-slate-200 font-bold py-3.5 px-8 rounded-xl transition-all shadow-xl text-sm uppercase tracking-wider;
 }
 
 .module-interactive-section {
@@ -338,7 +338,7 @@ const whatsappAsesorLink = computed(() => {
 }
 
 .recommendation-box {
-  @apply bg-[#0F172A]/50 p-5 rounded-2xl border border-slate-700/50;
+  @apply bg-[#003366]/50 p-5 rounded-2xl border border-slate-700/50;
 }
 .recommendation-title {
   @apply text-sm text-emerald-400 font-bold mb-2 flex items-center gap-2;
@@ -386,7 +386,7 @@ const whatsappAsesorLink = computed(() => {
   @apply bg-emerald-500;
 }
 .dot-progress {
-  @apply bg-[#0F172A] ring-2 ring-[#0F172A]/20;
+  @apply bg-[#003366] ring-2 ring-[#003366]/20;
 }
 .dot-pending {
   @apply bg-slate-200;
@@ -423,7 +423,7 @@ const whatsappAsesorLink = computed(() => {
 }
 
 .modal-overlay {
-  @apply fixed inset-0 z-50 flex items-center justify-center px-4 bg-[#0F172A]/80 backdrop-blur-sm transition-opacity;
+  @apply fixed inset-0 z-50 flex items-center justify-center px-4 bg-[#003366]/80 backdrop-blur-sm transition-opacity;
 }
 .modal-content-box {
   @apply bg-white rounded-2xl shadow-2xl max-w-sm w-full p-8 border border-slate-100 relative transform transition-all;
@@ -444,6 +444,6 @@ const whatsappAsesorLink = computed(() => {
   @apply text-slate-500 text-sm mb-8 leading-relaxed;
 }
 .btn-modal {
-  @apply block w-full py-3 px-4 bg-[#0F172A] hover:bg-slate-800 text-white font-bold rounded-lg transition-colors text-sm uppercase tracking-wider;
+  @apply block w-full py-3 px-4 bg-[#003366] hover:bg-slate-800 text-white font-bold rounded-lg transition-colors text-sm uppercase tracking-wider;
 }
 </style>

@@ -27,11 +27,12 @@
       </div>
     </header>
 
-    <!-- Hero Section Elegante -->
+    <!-- Hero Section Elegante (Fachada Inmobiliaria) -->
     <section id="inicio" class="hero-section">
       <!-- Background Image with Overlay -->
       <div class="hero-bg">
-        <img src="/images/aerial_night.png" alt="Puerto Asís de Noche" class="hero-img" />
+        <!-- Imagen de la fachada de la casa publicada -->
+        <img src="/images/casa_portada.jpg" alt="Fachada Casa Moderna Premium" class="hero-img" />
         <div class="hero-overlay"></div>
       </div>
 
@@ -39,10 +40,10 @@
         <div class="hero-text-wrapper">
           <span class="hero-badge">Puerto Asís, Putumayo</span>
           <h1 class="hero-title">
-            Porque una familia segura merece un hogar para toda la vida.
+            Construimos el futuro de tu familia
           </h1>
           <p class="hero-description">
-            Sabemos que no estás buscando solo ladrillos, sino el refugio donde crecerán tus hijos. En Inmobiliaria & Constructora Santander somos los indicados para acompañarte: desde diseñar y cotizar tu presupuesto de forma honesta en tiempo real, hasta construir con nuestras propias manos la solidez y la seguridad jurídica que tu familia necesita.
+            Descubre los mejores proyectos inmobiliarios de la región. Diseño exclusivo, alta valorización y la seguridad de invertir con una constructora de confianza y gran trayectoria.
           </p>
         </div>
 
@@ -676,7 +677,7 @@ const formatCurrency = (val) => {
 
 <style scoped>
 .home-container {
-  @apply min-h-screen bg-[#F8FAFC] font-sans text-slate-800 selection:bg-[#0F172A] selection:text-white;
+  @apply min-h-screen bg-[#F8FAFC] font-sans text-slate-800 selection:bg-[#003366] selection:text-white;
 }
 
 /* Navbar */
@@ -699,13 +700,13 @@ const formatCurrency = (val) => {
   @apply flex-shrink-0 flex items-center gap-3 cursor-pointer;
 }
 .brand-logo {
-  @apply w-10 h-10 bg-[#0F172A] rounded-lg flex items-center justify-center text-[#E2E8F0] font-serif font-bold text-xl;
+  @apply w-10 h-10 bg-[#003366] rounded-lg flex items-center justify-center text-[#E2E8F0] font-serif font-bold text-xl;
 }
 .brand-text {
   @apply flex flex-col;
 }
 .brand-title {
-  @apply font-bold text-lg tracking-tight text-[#0F172A] uppercase leading-none;
+  @apply font-bold text-lg tracking-tight text-[#003366] uppercase leading-none;
 }
 .brand-subtitle {
   @apply font-light text-sm tracking-[0.2em] text-[#64748B];
@@ -737,7 +738,7 @@ const formatCurrency = (val) => {
   @apply text-gray-200 hover:text-white;
 }
 .btn-cotizar {
-  @apply bg-[#0F172A] hover:bg-slate-800 text-white px-6 py-2.5 rounded-md font-medium text-sm transition-all shadow-lg border border-slate-700;
+  @apply bg-[#003366] hover:bg-[#002244] text-white px-6 py-2.5 rounded-md font-medium text-sm transition-all shadow-lg border border-[#002244];
 }
 
 /* Hero Section */
@@ -751,7 +752,7 @@ const formatCurrency = (val) => {
   @apply w-full h-full object-cover;
 }
 .hero-overlay {
-  @apply absolute inset-0 bg-gradient-to-b from-[#0F172A]/80 via-[#0F172A]/60 to-[#0F172A]/90;
+  @apply absolute inset-0 bg-gradient-to-b from-[#003366]/80 via-[#003366]/60 to-[#003366]/90;
 }
 .hero-content {
   @apply max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full pt-10;
@@ -786,7 +787,7 @@ const formatCurrency = (val) => {
   @apply w-full bg-slate-50 border border-slate-200 rounded-md px-4 py-3 text-slate-800 text-sm focus:ring-1 focus:ring-slate-400 focus:border-slate-400 outline-none transition-all;
 }
 .btn-search {
-  @apply w-full bg-[#0F172A] hover:bg-slate-800 text-white font-medium text-sm py-3 px-4 rounded-md shadow-md transition-all flex items-center justify-center gap-2;
+  @apply w-full bg-[#003366] hover:bg-[#002244] text-white font-medium text-sm py-3 px-4 rounded-md shadow-md transition-all flex items-center justify-center gap-2;
 }
 
 /* History Section */
@@ -841,13 +842,13 @@ const formatCurrency = (val) => {
 
 /* Discover Section */
 .discover-section {
-  @apply py-24 bg-[#0F172A] relative overflow-hidden text-white;
+  @apply py-24 bg-[#003366] relative overflow-hidden text-white;
 }
 .discover-bg-img {
-  @apply absolute inset-0 z-0 opacity-30 bg-[url('https://images.unsplash.com/photo-1616892548261-2ce0bd5e8e3a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center bg-no-repeat mix-blend-overlay;
+  @apply absolute inset-0 z-0 opacity-100 bg-[url('/images/aerial_night.png')] bg-cover bg-center bg-no-repeat;
 }
 .discover-bg-gradient {
-  @apply absolute inset-0 bg-gradient-to-r from-[#0F172A] via-[#0F172A]/90 to-[#0F172A]/40 z-0;
+  @apply absolute inset-0 bg-gradient-to-r from-[#003366]/95 via-[#003366]/70 to-[#003366]/30 z-0;
 }
 .discover-content {
   @apply max-w-7xl mx-auto px-6 lg:px-8 relative z-10;
@@ -880,13 +881,13 @@ const formatCurrency = (val) => {
   @apply text-slate-400 text-sm leading-relaxed;
 }
 .discover-images {
-  @apply grid grid-cols-2 gap-4;
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6;
 }
 .discover-img-1 {
-  @apply rounded-2xl shadow-2xl w-full h-56 object-cover translate-y-8 border-2 border-slate-700/50 hover:scale-105 transition-transform duration-500;
+  @apply rounded-2xl shadow-2xl w-full h-[400px] object-cover border-2 border-slate-700/50 hover:scale-105 transition-transform duration-500;
 }
 .discover-img-2 {
-  @apply rounded-2xl shadow-2xl w-full h-72 object-cover border-2 border-slate-700/50 hover:scale-105 transition-transform duration-500;
+  @apply rounded-2xl shadow-2xl w-full h-[500px] object-cover border-2 border-slate-700/50 hover:scale-105 transition-transform duration-500 md:-mt-12;
 }
 
 /* Services Section */
@@ -906,7 +907,7 @@ const formatCurrency = (val) => {
   @apply bg-white p-10 rounded-xl shadow-sm border border-slate-100 hover:shadow-lg transition-all;
 }
 .service-icon-box {
-  @apply w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-[#0F172A] transition-colors;
+  @apply w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-[#003366] transition-colors;
 }
 .service-card-title {
   @apply text-xl font-bold text-slate-900 mb-3;
@@ -929,7 +930,7 @@ const formatCurrency = (val) => {
   @apply bg-white p-10 rounded-xl text-center border-2 border-orange-100 hover:border-orange-300 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1;
 }
 .stat-value {
-  @apply text-5xl md:text-6xl font-extrabold text-[#0F172A] mb-2 tracking-tighter;
+  @apply text-5xl md:text-6xl font-extrabold text-[#003366] mb-2 tracking-tighter;
 }
 .stat-label {
   @apply text-lg font-medium text-slate-500;
@@ -1022,7 +1023,7 @@ const formatCurrency = (val) => {
   @apply max-w-7xl mx-auto px-6 lg:px-8;
 }
 .cta-box {
-  @apply bg-[#0F172A] rounded-2xl p-10 md:p-16 text-center relative overflow-hidden shadow-2xl;
+  @apply bg-[#003366] rounded-2xl p-10 md:p-16 text-center relative overflow-hidden shadow-2xl;
 }
 .cta-bg-texture {
   @apply absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')];
@@ -1034,7 +1035,7 @@ const formatCurrency = (val) => {
   @apply text-slate-400 max-w-2xl mx-auto mb-8 relative z-10;
 }
 .btn-cta {
-  @apply inline-block bg-white text-[#0F172A] font-bold py-3.5 px-8 rounded-md hover:bg-gray-100 transition-colors shadow-lg relative z-10 text-sm uppercase tracking-wide;
+  @apply inline-block bg-white text-[#003366] font-bold py-3.5 px-8 rounded-md hover:bg-gray-100 transition-colors shadow-lg relative z-10 text-sm uppercase tracking-wide;
 }
 
 /* Catalog Section */
@@ -1048,7 +1049,7 @@ const formatCurrency = (val) => {
   @apply flex justify-between items-end mb-12;
 }
 .catalog-link {
-  @apply hidden md:inline-block text-sm font-semibold text-slate-500 hover:text-[#0F172A] transition-colors border-b border-transparent hover:border-[#0F172A];
+  @apply hidden md:inline-block text-sm font-semibold text-slate-500 hover:text-[#003366] transition-colors border-b border-transparent hover:border-[#003366];
 }
 
 .loading-state {
@@ -1071,7 +1072,7 @@ const formatCurrency = (val) => {
   @apply w-full h-full object-cover group-hover:scale-105 transition-transform duration-700;
 }
 .property-type-badge {
-  @apply absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-[#0F172A] text-xs font-bold px-3 py-1.5 rounded-md shadow-sm uppercase tracking-wide;
+  @apply absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-[#003366] text-xs font-bold px-3 py-1.5 rounded-md shadow-sm uppercase tracking-wide;
 }
 .property-body {
   @apply p-6 flex-grow flex flex-col justify-between;
@@ -1089,10 +1090,10 @@ const formatCurrency = (val) => {
   @apply flex items-center justify-between;
 }
 .property-price {
-  @apply text-xl font-extrabold text-[#0F172A];
+  @apply text-xl font-extrabold text-[#003366];
 }
 .property-btn-view {
-  @apply text-[#0F172A] p-2 hover:bg-slate-50 rounded-full transition-colors;
+  @apply text-[#003366] p-2 hover:bg-slate-50 rounded-full transition-colors;
 }
 
 .empty-state {
@@ -1140,18 +1141,18 @@ const formatCurrency = (val) => {
   @apply flex items-center gap-4 text-xs font-bold text-slate-400 uppercase tracking-wider mb-3;
 }
 .blog-title {
-  @apply text-lg font-bold text-slate-900 mb-3 group-hover:text-[#0F172A] transition-colors leading-tight;
+  @apply text-lg font-bold text-slate-900 mb-3 group-hover:text-[#003366] transition-colors leading-tight;
 }
 .blog-text {
   @apply text-slate-500 text-sm leading-relaxed mb-4;
 }
 .blog-link {
-  @apply text-sm font-bold text-[#0F172A] flex items-center gap-1 hover:text-slate-600 transition-colors;
+  @apply text-sm font-bold text-[#003366] flex items-center gap-1 hover:text-slate-600 transition-colors;
 }
 
 /* Footer */
 .footer {
-  @apply bg-[#0F172A] border-t border-slate-800 py-12;
+  @apply bg-[#003366] border-t border-slate-800 py-12;
 }
 .footer-content {
   @apply max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6;
@@ -1160,7 +1161,7 @@ const formatCurrency = (val) => {
   @apply flex items-center gap-2;
 }
 .footer-logo {
-  @apply w-8 h-8 bg-white rounded flex items-center justify-center text-[#0F172A] font-serif font-bold text-sm;
+  @apply w-8 h-8 bg-white rounded flex items-center justify-center text-[#003366] font-serif font-bold text-sm;
 }
 .footer-brand-text {
   @apply text-white font-medium tracking-widest text-xs uppercase;

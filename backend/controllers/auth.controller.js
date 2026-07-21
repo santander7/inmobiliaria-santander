@@ -2,31 +2,49 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// Expresión regular robusta para validar el formato del correo
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 exports.register = async (req, res) => {
   try {
     const { nombre, correo, telefono, password } = req.body;
     
+    // Validación de Nivel 1: Sintaxis del correo
+    if (!emailRegex.test(correo)) {
+        return res.status(400).json({ message: 'Introduzca una dirección de email válida.' });
+    }
+    
     const existingUser = await User.findOne({ correo });
+    
     if (existingUser) {
-      return res.status(400).json({ message: 'El correo ya está registrado' });
+        return res.status(400).json({ message: 'El correo ya está registrado. Por favor inicia sesión.' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 8);
-    // Para simplificar la creación del primer administrador, forzamos un correo específico a ADMIN
     const role = (correo === 'admin@inmobiliaria.com') ? 'ADMIN' : 'USER';
-
+    
+    // Crear nuevo usuario (ya no necesitamos verificación por link)
     const user = await User.create({
-      nombre,
-      correo,
-      telefono,
-      password: hashedPassword,
-      role
+        nombre,
+        correo,
+        telefono,
+        password: hashedPassword,
+        role,
+        isVerified: true // Lo marcamos como verificado por defecto para no bloquearlo
     });
 
-    res.status(201).json({ message: 'Usuario registrado exitosamente' });
+    res.status(201).json({ 
+        message: 'Usuario registrado exitosamente.'
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Error en el servidor', error: error.message });
+    console.error("Error en registro:", error);
+    res.status(500).json({ message: 'Error en el servidor.', error: error.message });
   }
+};
+
+exports.verifyEmail = async (req, res) => {
+    // Este método ya no es necesario, pero lo dejamos por compatibilidad temporal
+    res.status(200).send("Ya no se requiere verificación por email.");
 };
 
 exports.login = async (req, res) => {
