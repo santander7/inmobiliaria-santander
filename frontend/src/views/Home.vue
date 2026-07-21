@@ -578,37 +578,7 @@ const handleScroll = () => {
 }
 
 // Datos de simulación (Mocks Premium) por si la BD está vacía
-const mocks = [
-  {
-    id: 'mock1',
-    titulo: 'Proyecto Residencial Campestre',
-    tipo: 'CASA',
-    municipio: 'Puerto Asís',
-    area: 120,
-    precio: 350000000,
-    caracteristicas: { habitaciones: 4 },
-    imagen_url: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-  },
-  {
-    id: 'mock2',
-    titulo: 'Lote Urbano Premium',
-    tipo: 'LOTE',
-    municipio: 'Puerto Asís',
-    area: 450,
-    precio: 120000000,
-    imagen_url: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-  },
-  {
-    id: 'mock3',
-    titulo: 'Casa Moderna Familiar',
-    tipo: 'CASA',
-    municipio: 'Puerto Asís',
-    area: 90,
-    precio: 210000000,
-    caracteristicas: { habitaciones: 3 },
-    imagen_url: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-  }
-]
+const mocks = []
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
@@ -634,7 +604,7 @@ onUnmounted(() => {
 })
 
 const propiedadesMostrar = computed(() => {
-  let list = propiedadesReales.value.length > 0 ? propiedadesReales.value : mocks
+  let list = propiedadesReales.value
   
   // Aplicar filtros
   if (filtros.tipo) {
