@@ -38,6 +38,12 @@ app.use('/api/cotizaciones', cotizacionesRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/proyectos', proyectosRoutes);
 
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error("Global Error:", err);
+  res.status(500).json({ message: 'Error interno del servidor', error: err.message || err });
+});
+
 // Socket.io
 io.on('connection', (socket) => {
   console.log('Un usuario se ha conectado');
