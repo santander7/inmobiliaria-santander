@@ -21,6 +21,7 @@
     "markdown-pdf": "^11.0.0",
     "mongoose": "^9.7.4",
     "multer": "^2.2.0",
+    "node-cron": "^4.6.0",
     "nodemailer": "^9.0.3",
     "socket.io": "^4.8.3",
     "zod": "^4.4.3"

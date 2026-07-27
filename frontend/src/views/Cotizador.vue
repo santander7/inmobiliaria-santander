@@ -153,6 +153,10 @@
           <button @click="resetForm" class="btn-reset">
             Hacer otro cálculo
           </button>
+          <button @click="descargarPDF" class="btn-whatsapp" style="background-color: #e11d48; margin-right: 10px;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+            Descargar Factura PDF
+          </button>
           <button @click="mostrandoPerfil = true" class="btn-whatsapp">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd" /></svg>
             Negociar por WhatsApp
@@ -393,6 +397,7 @@
 
 <script setup>
 import { reactive, ref, computed, onMounted } from 'vue'
+import html2pdf from 'html2pdf.js'
 import api from '../services/api'
 import { useAuthStore } from '../store/auth'
 
@@ -541,6 +546,25 @@ const whatsappLinkFinal = computed(() => {
 Me interesa conversar sobre este proyecto y los acuerdos de pago.`
   return `https://wa.me/3175192043?text=${encodeURIComponent(msg)}`
 })
+
+const descargarPDF = () => {
+  const element = document.querySelector('.resultado-card');
+  const opt = {
+    margin:       1,
+    filename:     `Factura_Cotizacion_Santander.pdf`,
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+  };
+  
+  // Ocultar botones antes de imprimir
+  const actions = document.querySelector('.resultado-actions');
+  if(actions) actions.style.display = 'none';
+
+  html2pdf().set(opt).from(element).save().then(() => {
+    if(actions) actions.style.display = 'flex';
+  });
+}
 </script>
 
 <style scoped>

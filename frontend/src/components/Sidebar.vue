@@ -20,6 +20,7 @@
             <template v-if="role === 'USER'">
               <router-link to="/dashboard/user" class="nav-link" active-class="nav-link-active">Inicio</router-link>
               <router-link to="/dashboard/cotizador" class="nav-link" active-class="nav-link-active">Construcción</router-link>
+              <router-link to="/dashboard/agendar" class="nav-link" active-class="nav-link-active">Agendar Cita</router-link>
               <a href="#" class="nav-link">Mis Solicitudes</a>
               <a href="#" class="nav-link">Favoritos</a>
             </template>
@@ -27,6 +28,7 @@
             <!-- Admin Links -->
             <template v-if="role === 'ADMIN'">
               <router-link to="/dashboard/admin" class="nav-link" active-class="nav-link-active" exact>Estadísticas</router-link>
+              <router-link to="/dashboard/admin/erp" class="nav-link font-bold text-emerald-600" active-class="nav-link-active">ERP Obra</router-link>
               <router-link to="/dashboard/admin/add-propiedad" class="nav-link" active-class="nav-link-active">Propiedades</router-link>
               <a href="#" class="nav-link">Citas</a>
               <router-link to="/dashboard/admin/usuarios" class="nav-link" active-class="nav-link-active">Usuarios</router-link>

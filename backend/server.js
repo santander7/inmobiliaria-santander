@@ -16,6 +16,9 @@ const io = new Server(server, {
 
 // Conectar a MongoDB
 connectDB();
+// Inicializar Tareas Programadas (Cron Jobs)
+require('./cron');
+
 // Middleware
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
@@ -31,12 +34,16 @@ const propiedadesRoutes = require('./routes/propiedades.routes');
 const cotizacionesRoutes = require('./routes/cotizaciones.routes');
 const uploadRoutes = require('./routes/upload.routes');
 const proyectosRoutes = require('./routes/proyectos.routes');
+const citasRoutes = require('./routes/citas.routes');
+const erpRoutes = require('./routes/erp.routes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/propiedades', propiedadesRoutes);
 app.use('/api/cotizaciones', cotizacionesRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/proyectos', proyectosRoutes);
+app.use('/api/citas', citasRoutes);
+app.use('/api/erp', erpRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {

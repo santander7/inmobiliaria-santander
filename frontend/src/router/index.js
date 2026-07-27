@@ -43,6 +43,11 @@ const router = createRouter({
           component: Cotizador
         },
         {
+          path: 'agendar',
+          name: 'Agendar Cita',
+          component: () => import('../views/AgendarCita.vue')
+        },
+        {
           path: 'admin',
           name: 'Panel de Administración',
           component: AdminDashboard,
@@ -58,6 +63,12 @@ const router = createRouter({
           path: 'admin/usuarios',
           name: 'Gestión de Usuarios',
           component: Users,
+          meta: { isAdmin: true }
+        },
+        {
+          path: 'admin/erp',
+          name: 'ERP Financiero & Obra',
+          component: () => import('../views/ErpFinanciero.vue'),
           meta: { isAdmin: true }
         },
         {
