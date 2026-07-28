@@ -67,7 +67,7 @@ exports.crearCita = async (req, res) => {
 exports.obtenerCitas = async (req, res) => {
   try {
     // Si es admin ve todas, si es usuario ve solo las suyas
-    const query = req.userRole === 'admin' ? {} : { user: req.userId };
+    const query = req.userRole === 'ADMIN' ? {} : { user: req.userId };
     const citas = await Cita.find(query).populate('user', 'nombre correo telefono').populate('propiedad', 'titulo').sort({ fecha_hora: 1 });
     res.status(200).json(citas);
   } catch (error) {
