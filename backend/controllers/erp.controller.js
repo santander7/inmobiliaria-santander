@@ -20,6 +20,28 @@ exports.obtenerObras = async (req, res) => {
   }
 };
 
+exports.editarObra = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const obraActualizada = await ObraActiva.findByIdAndUpdate(id, req.body, { new: true });
+    res.status(200).json({ message: 'Obra actualizada exitosamente', obra: obraActualizada });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al editar obra', error: error.message });
+  }
+};
+
+exports.eliminarObra = async (req, res) => {
+  try {
+    const { id } = req.params;
+    // Eliminar la obra y todos sus gastos asociados
+    await ObraActiva.findByIdAndDelete(id);
+    await Gasto.deleteMany({ obra: id });
+    res.status(200).json({ message: 'Obra y gastos eliminados exitosamente' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al eliminar obra', error: error.message });
+  }
+};
+
 exports.registrarGasto = async (req, res) => {
   try {
     const nuevoGasto = new Gasto(req.body);
@@ -27,6 +49,26 @@ exports.registrarGasto = async (req, res) => {
     res.status(201).json({ message: 'Gasto registrado exitosamente', gasto: nuevoGasto });
   } catch (error) {
     res.status(500).json({ message: 'Error al registrar gasto', error: error.message });
+  }
+};
+
+exports.eliminarGasto = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Gasto.findByIdAndDelete(id);
+    res.status(200).json({ message: 'Gasto eliminado exitosamente' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al eliminar gasto', error: error.message });
+  }
+};
+
+exports.editarGasto = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const gastoActualizado = await Gasto.findByIdAndUpdate(id, req.body, { new: true });
+    res.status(200).json({ message: 'Gasto actualizado', gasto: gastoActualizado });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al editar gasto', error: error.message });
   }
 };
 

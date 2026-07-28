@@ -22,9 +22,15 @@
         <div class="text-sm text-slate-600 mb-4">
           <p><strong>Presupuesto Base:</strong> {{ formatCurrency(obra.presupuesto_inicial) }}</p>
         </div>
-        <button @click="verFinanzas(obra._id)" class="mt-auto w-full bg-slate-100 text-[#003366] py-2 rounded font-semibold hover:bg-slate-200">
-          Gestionar Contabilidad
-        </button>
+        <div class="flex flex-col gap-2 mt-auto">
+          <button @click="verFinanzas(obra._id)" class="w-full bg-slate-100 text-[#003366] py-2 rounded font-semibold hover:bg-slate-200">
+            Gestionar Contabilidad
+          </button>
+          <div class="flex gap-2">
+            <button @click="abrirEditarObra(obra)" class="flex-1 bg-amber-50 text-amber-700 py-1 rounded text-sm hover:bg-amber-100">Editar</button>
+            <button @click="eliminarObra(obra._id)" class="flex-1 bg-red-50 text-red-600 py-1 rounded text-sm hover:bg-red-100">Eliminar</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -106,6 +112,7 @@
                 <th class="p-3 border-b">Categoría</th>
                 <th class="p-3 border-b text-right">Monto</th>
                 <th class="p-3 border-b text-center">Soporte</th>
+                <th class="p-3 border-b text-center">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -119,9 +126,13 @@
                   <a v-if="g.soporte_url" :href="g.soporte_url" target="_blank" class="text-blue-500 hover:underline text-sm">Ver PDF/Foto</a>
                   <span v-else class="text-slate-300">-</span>
                 </td>
+                <td class="p-3 text-center flex justify-center gap-2">
+                  <button @click="abrirEditarGasto(g)" class="text-amber-600 hover:text-amber-800 font-bold px-2 py-1 bg-amber-50 rounded">Editar</button>
+                  <button @click="eliminarGasto(g._id)" class="text-red-500 hover:text-red-700 font-bold px-2 py-1 bg-red-50 rounded">Borrar</button>
+                </td>
               </tr>
               <tr v-if="obraSeleccionada.gastos.length === 0">
-                <td colspan="6" class="p-6 text-center text-slate-500">No hay gastos registrados aún.</td>
+                <td colspan="7" class="p-6 text-center text-slate-500">No hay gastos registrados aún.</td>
               </tr>
             </tbody>
           </table>
@@ -150,6 +161,54 @@
       </div>
     </div>
 
+    <!-- Modal Editar Obra -->
+    <div v-if="showModalEditarObra" class="fixed inset-0 bg-slate-900/50 flex items-center justify-center z-50 p-4">
+      <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6">
+        <h3 class="text-xl font-bold mb-4">Editar Obra</h3>
+        <form @submit.prevent="guardarEdicionObra">
+          <div class="mb-4">
+            <label class="block text-sm font-semibold mb-1">Título / Nombre Cliente</label>
+            <input v-model="obraEditarForm.titulo" required type="text" class="w-full p-2 rounded border">
+          </div>
+          <div class="mb-6">
+            <label class="block text-sm font-semibold mb-1">Presupuesto Aprobado</label>
+            <input v-model="obraEditarForm.presupuesto_inicial" required type="number" class="w-full p-2 rounded border">
+          </div>
+          <div class="flex justify-end gap-2">
+            <button type="button" @click="showModalEditarObra = false" class="px-4 py-2 text-slate-600">Cancelar</button>
+            <button type="submit" class="px-4 py-2 bg-[#003366] text-white rounded font-bold">Guardar Cambios</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal Editar Gasto -->
+    <div v-if="showModalEditarGasto" class="fixed inset-0 bg-slate-900/50 flex items-center justify-center z-[60] p-4">
+      <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6">
+        <h3 class="text-xl font-bold mb-4">Editar Gasto (Concepto)</h3>
+        <form @submit.prevent="guardarEdicionGasto">
+          <div class="mb-4">
+            <label class="block text-sm font-semibold mb-1">Concepto</label>
+            <input v-model="gastoEditarForm.concepto" required type="text" class="w-full p-2 rounded border">
+          </div>
+          <div class="mb-4 grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-semibold mb-1">Cantidad</label>
+              <input v-model="gastoEditarForm.cantidad" required type="number" min="0.1" step="any" class="w-full p-2 rounded border">
+            </div>
+            <div>
+              <label class="block text-sm font-semibold mb-1">Total (Monto)</label>
+              <input v-model="gastoEditarForm.monto" required type="number" class="w-full p-2 rounded border">
+            </div>
+          </div>
+          <div class="flex justify-end gap-2">
+            <button type="button" @click="showModalEditarGasto = false" class="px-4 py-2 text-slate-600">Cancelar</button>
+            <button type="submit" class="px-4 py-2 bg-amber-600 text-white rounded font-bold">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -159,6 +218,8 @@ import api from '../services/api'
 
 const obras = ref([])
 const showModalObra = ref(false)
+const showModalEditarObra = ref(false)
+const showModalEditarGasto = ref(false)
 const obraSeleccionada = ref(null)
 
 const listaMateriales = [
@@ -201,7 +262,9 @@ const listaMateriales = [
 ];
 
 const obraForm = ref({ titulo: '', presupuesto_inicial: '' })
+const obraEditarForm = ref({ _id: null, titulo: '', presupuesto_inicial: '' })
 const gastoForm = ref({ concepto: '', cantidad: 1, categoria: 'MATERIALES', monto: '', soporte_url: '' })
+const gastoEditarForm = ref({ _id: null, concepto: '', cantidad: 1, monto: '' })
 const fileToUpload = ref(null)
 const uploading = ref(false)
 
@@ -226,6 +289,32 @@ const crearObra = async () => {
     cargarObras()
   } catch (error) {
     alert('Error al crear obra')
+  }
+}
+
+const abrirEditarObra = (obra) => {
+  obraEditarForm.value = { _id: obra._id, titulo: obra.titulo, presupuesto_inicial: obra.presupuesto_inicial }
+  showModalEditarObra.value = true
+}
+
+const guardarEdicionObra = async () => {
+  try {
+    await api.put(`/erp/obras/${obraEditarForm.value._id}`, obraEditarForm.value)
+    showModalEditarObra.value = false
+    cargarObras()
+  } catch (error) {
+    alert('Error al editar obra')
+  }
+}
+
+const eliminarObra = async (id) => {
+  if (confirm('¿Estás seguro de eliminar esta obra? SE BORRARÁN TODOS SUS GASTOS DE FORMA PERMANENTE.')) {
+    try {
+      await api.delete(`/erp/obras/${id}`)
+      cargarObras()
+    } catch (error) {
+      alert('Error al eliminar obra')
+    }
   }
 }
 
@@ -270,6 +359,7 @@ const registrarGasto = async () => {
     
     // Recargar finanzas de la obra actual
     await verFinanzas(obraSeleccionada.value.obra._id)
+    cargarObras()
     
     // Reset form
     gastoForm.value.concepto = ''
@@ -281,6 +371,38 @@ const registrarGasto = async () => {
     alert('Error registrando gasto')
   } finally {
     uploading.value = false
+  }
+}
+
+const eliminarGasto = async (id) => {
+  if (confirm('¿Deseas eliminar este registro de gasto del libro mayor?')) {
+    try {
+      await api.delete(`/erp/gastos/${id}`)
+      await verFinanzas(obraSeleccionada.value.obra._id)
+      cargarObras()
+    } catch (error) {
+      alert('Error al eliminar gasto')
+    }
+  }
+}
+
+const abrirEditarGasto = (gasto) => {
+  gastoEditarForm.value = { _id: gasto._id, concepto: gasto.concepto, cantidad: gasto.cantidad || 1, monto: gasto.monto }
+  showModalEditarGasto.value = true
+}
+
+const guardarEdicionGasto = async () => {
+  try {
+    await api.put(`/erp/gastos/${gastoEditarForm.value._id}`, {
+      concepto: gastoEditarForm.value.concepto,
+      cantidad: gastoEditarForm.value.cantidad,
+      monto: gastoEditarForm.value.monto
+    })
+    showModalEditarGasto.value = false
+    await verFinanzas(obraSeleccionada.value.obra._id)
+    cargarObras()
+  } catch (error) {
+    alert('Error al editar gasto')
   }
 }
 
