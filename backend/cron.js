@@ -1,5 +1,4 @@
 const cron = require('node-cron');
-const fetch = require('node-fetch'); // Requerir si usamos fetch nativo en versiones viejas de node, si es Node 18+ está global.
 
 // Programar tarea para que corra todos los días a las 6:00 PM (18:00)
 // Formato Cron: '0 18 * * *' (Minuto 0, Hora 18, Todos los días)

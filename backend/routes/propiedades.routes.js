@@ -8,6 +8,6 @@ const upload = require('../middleware/upload');
 router.get('/', propiedadesController.getPropiedades);
 
 // Rutas Privadas (Solo Administrador)
-router.post('/', verifyToken, isAdmin, upload.array('imagenes', 5), propiedadesController.createPropiedad);
+router.post('/', verifyToken, isAdmin, upload.array('imagenes', 15), propiedadesController.createPropiedad);
 
 module.exports = router;

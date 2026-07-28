@@ -26,6 +26,7 @@ exports.createPropiedad = async (req, res) => {
       estado,
       tipo,
       caracteristicas: caracteristicas ? JSON.parse(caracteristicas) : {},
+      coordenadas: req.body.coordenadas ? JSON.parse(req.body.coordenadas) : undefined,
       imagenes: imagenesList,
       creador: req.userId // Creador
     });

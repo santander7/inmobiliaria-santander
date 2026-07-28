@@ -10,6 +10,10 @@ const propiedadSchema = new mongoose.Schema({
   tipo: { type: String, enum: ['CASA', 'LOTE'], required: true },
   caracteristicas: { type: Object, default: {} }, // { habitaciones: 3, baños: 2, etc }
   imagenes: [{ url: { type: String, required: true } }], // Embedded array of images
+  coordenadas: {
+    lat: { type: Number, default: 1.1518 },
+    lng: { type: Number, default: -76.6499 } // Default Mocoa, Putumayo
+  },
   creador: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
 

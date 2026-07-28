@@ -44,6 +44,7 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/proyectos', proyectosRoutes);
 app.use('/api/citas', citasRoutes);
 app.use('/api/erp', erpRoutes);
+app.use('/api/crm', require('./routes/crm.routes'));
 
 // Global error handler
 app.use((err, req, res, next) => {

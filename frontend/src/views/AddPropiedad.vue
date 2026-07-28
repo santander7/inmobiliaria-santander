@@ -72,6 +72,15 @@
 
       <hr class="form-divider">
 
+      <!-- Mapa Interactivo Leaflet -->
+      <div class="form-group full-width">
+        <label class="form-label">Ubicación Exacta (Haz clic en el mapa para fijar el marcador)</label>
+        <p class="text-xs text-gray-500 mb-2">Coordenadas actuales: {{ form.coordenadas.lat }}, {{ form.coordenadas.lng }}</p>
+        <div id="map" class="h-64 w-full rounded-xl border border-gray-200 z-10"></div>
+      </div>
+
+      <hr class="form-divider">
+
       <!-- Subida de Imágenes -->
       <div class="form-group full-width">
         <label class="form-label">Fotografías (Sube múltiples imágenes)</label>
@@ -80,7 +89,7 @@
             <div class="upload-content">
               <span class="upload-icon">📸</span>
               <p class="upload-title">Haz clic para seleccionar imágenes</p>
-              <p class="upload-subtitle">PNG, JPG (Máx. 5 fotos)</p>
+              <p class="upload-subtitle">PNG, JPG (Máx. 15 fotos masivas)</p>
             </div>
             <input type="file" class="hidden" multiple accept="image/*" @change="handleFileUpload" />
           </label>
@@ -116,9 +125,19 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+// Corregir icono por defecto de Leaflet en Vue
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+});
 
 const router = useRouter();
 const loading = ref(false);
@@ -136,15 +155,40 @@ const form = reactive({
   caracteristicas: {
     habitaciones: null,
     banos: null
+  },
+  coordenadas: {
+    lat: 1.1481, // Mocoa aprox
+    lng: -76.6483
   }
+});
+
+let map = null;
+let marker = null;
+
+onMounted(() => {
+  // Inicializar mapa en Mocoa, Putumayo
+  map = L.map('map').setView([form.coordenadas.lat, form.coordenadas.lng], 13);
+  
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  marker = L.marker([form.coordenadas.lat, form.coordenadas.lng]).addTo(map);
+
+  map.on('click', (e) => {
+    const { lat, lng } = e.latlng;
+    form.coordenadas.lat = lat;
+    form.coordenadas.lng = lng;
+    marker.setLatLng([lat, lng]);
+  });
 });
 
 const files = ref([]);
 
 const handleFileUpload = (event) => {
   const selectedFiles = Array.from(event.target.files);
-  if (selectedFiles.length > 5) {
-    error.value = "Solo puedes subir un máximo de 5 imágenes a la vez.";
+  if (selectedFiles.length > 15) {
+    error.value = "Solo puedes subir un máximo de 15 imágenes a la vez.";
     return;
   }
   error.value = '';
@@ -165,6 +209,7 @@ const submitForm = async () => {
     formData.append('tipo', form.tipo);
     formData.append('estado', form.estado);
     formData.append('caracteristicas', JSON.stringify(form.caracteristicas));
+    formData.append('coordenadas', JSON.stringify(form.coordenadas));
 
     files.value.forEach(file => {
       formData.append('imagenes', file);
