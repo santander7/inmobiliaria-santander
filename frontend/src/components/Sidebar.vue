@@ -38,6 +38,9 @@
           
           <!-- Acciones de Usuario -->
           <div class="user-actions">
+            <button v-if="authStore.user?.role === 'admin'" @click="toggleView" class="btn-toggle-view">
+              {{ isViewingAsAdmin ? '👁️ Vista Cliente' : '🛡️ Vista Admin' }}
+            </button>
             <div class="user-info">
               <span class="user-role">{{ role === 'ADMIN' ? 'Administrador' : 'Cliente' }}</span>
               <div class="avatar">
@@ -77,12 +80,28 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '../store/auth'
+
+const route = useRoute()
+const router = useRouter()
+const authStore = useAuthStore()
+
+const isViewingAsAdmin = computed(() => {
+  return route.path.includes('admin')
+})
 
 const role = computed(() => {
-  const path = useRoute().path
-  return path.includes('admin') ? 'ADMIN' : 'USER'
+  return isViewingAsAdmin.value ? 'ADMIN' : 'USER'
 })
+
+const toggleView = () => {
+  if (isViewingAsAdmin.value) {
+    router.push('/dashboard/user')
+  } else {
+    router.push('/dashboard/admin')
+  }
+}
 
 const routeName = computed(() => {
   return useRoute().name?.replace('-', ' ') || 'Panel'
@@ -144,6 +163,10 @@ const routeName = computed(() => {
 }
 .btn-logout {
   @apply text-sm font-semibold text-slate-400 hover:text-red-500 transition-colors uppercase tracking-wider;
+}
+
+.btn-toggle-view {
+  @apply text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-emerald-600 transition shadow-sm;
 }
 
 .main-content {
