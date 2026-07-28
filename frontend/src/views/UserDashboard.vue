@@ -116,8 +116,8 @@
       </div>
     </div>
 
-    <!-- Módulo de Avance de Obra (Transparencia Total) -->
-    <div class="progress-module">
+    <!-- Módulo de Avance de Obra (Solo visible si el admin autoriza / tiene obra activa) -->
+    <div v-if="obrasActivas.length > 0" class="progress-module">
       <div class="progress-header">
         <div>
           <h3 class="progress-title">
@@ -236,6 +236,7 @@ const presupuestoSlider = ref(150000000)
 const modalActivo = ref(null)
 const citasUser = ref([])
 const cotizacionesUser = ref([])
+const obrasActivas = ref([])
 
 const cargarDatos = async () => {
   try {
