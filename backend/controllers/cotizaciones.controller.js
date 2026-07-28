@@ -11,27 +11,28 @@ const calcularPresupuesto = (data) => {
     tiempoBase = 0.5;
     factorTiempo = 60;
     switch(data.tipo_acabados) {
-      case 'ECONOMICO': materialesPorM2 = 450000; manoObraPorM2 = 350000; break;
-      case 'ESTANDAR': materialesPorM2 = 650000; manoObraPorM2 = 450000; break;
-      case 'PREMIUM': materialesPorM2 = 1000000; manoObraPorM2 = 600000; break;
+      case 'ECONOMICO': materialesPorM2 = 550000; manoObraPorM2 = 400000; break;
+      case 'ESTANDAR': materialesPorM2 = 850000; manoObraPorM2 = 600000; break;
+      case 'PREMIUM': materialesPorM2 = 1300000; manoObraPorM2 = 900000; break;
     }
   } else {
     tiempoBase = 1; 
     factorTiempo = 40; 
     
-    let materialesGris = 800000;
-    let manoObraGris = 450000;
+    // Obra gris realista Colombia (aprox 1.6M - 1.8M total)
+    let materialesGris = 1100000;
+    let manoObraGris = 550000;
 
     // Si es con plancha o dos pisos, la estructura es más pesada y costosa (cimentación reforzada, losa)
     if (data.tipo_estructura === 'UN_PISO_PLANCHA') {
-      materialesGris += 250000; // Incremento por losa y refuerzos
-      manoObraGris += 150000;
+      materialesGris += 350000; // Incremento por losa y refuerzos
+      manoObraGris += 200000;
     } else if (data.tipo_estructura === 'DOS_PISOS') {
-      materialesGris += 400000; 
-      manoObraGris += 250000;
+      materialesGris += 600000; 
+      manoObraGris += 350000;
     } else if (data.tipo_estructura === 'TRES_MAS_PISOS') {
-      materialesGris += 650000; // Refuerzos estructurales mayores, columnas anchas
-      manoObraGris += 450000;
+      materialesGris += 850000; // Refuerzos estructurales mayores, columnas anchas
+      manoObraGris += 550000;
     }
     
     let materialesBlanca = 0;
@@ -40,9 +41,9 @@ const calcularPresupuesto = (data) => {
     // Si el cliente eligió OBRA BLANCA, sumamos los acabados. Si eligió OBRA GRIS, se quedan en 0.
     if (data.fase_construccion === 'OBRA_BLANCA') {
       switch(data.tipo_acabados) {
-        case 'ECONOMICO': materialesBlanca = 400000; manoObraBlanca = 300000; break; 
-        case 'ESTANDAR': materialesBlanca = 650000; manoObraBlanca = 450000; break; 
-        case 'PREMIUM': materialesBlanca = 950000; manoObraBlanca = 650000; break; 
+        case 'ECONOMICO': materialesBlanca = 600000; manoObraBlanca = 400000; break; 
+        case 'ESTANDAR': materialesBlanca = 900000; manoObraBlanca = 600000; break; 
+        case 'PREMIUM': materialesBlanca = 1400000; manoObraBlanca = 900000; break; 
       }
     }
 
@@ -54,8 +55,8 @@ const calcularPresupuesto = (data) => {
   let totalManoObra = data.metros_cuadrados * manoObraPorM2;
   
   if (data.fase_construccion === 'OBRA_BLANCA' || data.tipo_proyecto === 'REMODELACION') {
-    totalMateriales += (data.banos * 900000);
-    totalManoObra += (data.banos * 500000);
+    totalMateriales += (data.banos * 1500000); // 1.5M extra de materiales por cada baño
+    totalManoObra += (data.banos * 800000); // 800k extra de mano de obra
   }
 
   if (data.tipo_proyecto === 'LOTE_Y_CASA' || data.tipo_proyecto === 'SOLO_LOTE') {
@@ -63,10 +64,10 @@ const calcularPresupuesto = (data) => {
       // Si el cliente eligió un lote específico del inventario
       costoLote = parseFloat(data.lote_precio_real);
     } else if (data.zona_lote) {
-      // Valores fijos según la realidad de Puerto Asís
-      if (data.zona_lote === 'CENTRO') costoLote = 135000000;
-      if (data.zona_lote === 'PERIFERIA') costoLote = 65000000;
-      if (data.zona_lote === 'RURAL') costoLote = 45000000;
+      // Valores fijos realistas según la realidad colombiana
+      if (data.zona_lote === 'CENTRO') costoLote = 180000000;
+      if (data.zona_lote === 'PERIFERIA') costoLote = 85000000;
+      if (data.zona_lote === 'RURAL') costoLote = 55000000;
     }
   }
 
