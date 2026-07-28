@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const gastoSchema = new mongoose.Schema({
   obra: { type: mongoose.Schema.Types.ObjectId, ref: 'ObraActiva', required: true },
   concepto: { type: String, required: true },
+  cantidad: { type: Number, default: 1 },
   categoria: { type: String, enum: ['MATERIALES', 'NOMINA', 'SERVICIOS', 'OTROS'], required: true },
   monto: { type: Number, required: true },
   fecha: { type: Date, default: Date.now },

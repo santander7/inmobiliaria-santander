@@ -59,8 +59,15 @@
           <h4 class="font-bold mb-4 text-slate-800">Registrar Nuevo Gasto</h4>
           <form @submit.prevent="registrarGasto" class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm mb-1 font-semibold">Concepto / Ítem</label>
-              <input v-model="gastoForm.concepto" required type="text" class="w-full p-2 rounded border border-slate-300">
+              <label class="block text-sm mb-1 font-semibold">Concepto / Ítem de Inventario</label>
+              <input v-model="gastoForm.concepto" list="materiales-list" required type="text" class="w-full p-2 rounded border border-slate-300" placeholder="Buscar o escribir concepto...">
+              <datalist id="materiales-list">
+                <option v-for="mat in listaMateriales" :key="mat" :value="mat"></option>
+              </datalist>
+            </div>
+            <div>
+              <label class="block text-sm mb-1 font-semibold">Cantidad</label>
+              <input v-model="gastoForm.cantidad" required type="number" min="0.1" step="any" class="w-full p-2 rounded border border-slate-300" placeholder="Ej: 10">
             </div>
             <div>
               <label class="block text-sm mb-1 font-semibold">Categoría</label>
@@ -72,8 +79,8 @@
               </select>
             </div>
             <div>
-              <label class="block text-sm mb-1 font-semibold">Monto Exacto</label>
-              <input v-model="gastoForm.monto" required type="number" class="w-full p-2 rounded border border-slate-300">
+              <label class="block text-sm mb-1 font-semibold">Precio Total (Monto Exacto)</label>
+              <input v-model="gastoForm.monto" required type="number" class="w-full p-2 rounded border border-slate-300" placeholder="Costo total de la compra">
             </div>
             <div>
               <label class="block text-sm mb-1 font-semibold">Soporte PDF/Foto (Opcional)</label>
@@ -95,6 +102,7 @@
               <tr class="bg-slate-100 text-slate-600 text-sm uppercase">
                 <th class="p-3 border-b">Fecha</th>
                 <th class="p-3 border-b">Concepto</th>
+                <th class="p-3 border-b text-center">Cant.</th>
                 <th class="p-3 border-b">Categoría</th>
                 <th class="p-3 border-b text-right">Monto</th>
                 <th class="p-3 border-b text-center">Soporte</th>
@@ -104,6 +112,7 @@
               <tr v-for="g in obraSeleccionada.gastos" :key="g._id" class="border-b hover:bg-slate-50">
                 <td class="p-3 text-sm">{{ new Date(g.fecha).toLocaleDateString() }}</td>
                 <td class="p-3 font-medium">{{ g.concepto }}</td>
+                <td class="p-3 text-center text-sm font-bold">{{ g.cantidad || 1 }}</td>
                 <td class="p-3 text-xs"><span class="bg-slate-200 px-2 py-1 rounded">{{ g.categoria }}</span></td>
                 <td class="p-3 text-right font-bold text-red-600">{{ formatCurrency(g.monto) }}</td>
                 <td class="p-3 text-center">
@@ -112,7 +121,7 @@
                 </td>
               </tr>
               <tr v-if="obraSeleccionada.gastos.length === 0">
-                <td colspan="5" class="p-6 text-center text-slate-500">No hay gastos registrados aún.</td>
+                <td colspan="6" class="p-6 text-center text-slate-500">No hay gastos registrados aún.</td>
               </tr>
             </tbody>
           </table>
@@ -152,8 +161,47 @@ const obras = ref([])
 const showModalObra = ref(false)
 const obraSeleccionada = ref(null)
 
+const listaMateriales = [
+  "Cemento Gris (Bulto 50kg)",
+  "Cemento Blanco (Bulto 40kg)",
+  "Arena de Peña (Volquetada)",
+  "Arena de Río (Volquetada)",
+  "Tierra para jardín (Volquetada)",
+  "Balastro (Volquetada)",
+  "Ladrillo Prensado",
+  "Ladrillo Farol",
+  "Bloque de Cemento",
+  "Varilla Corrugada 3/8\"",
+  "Varilla Corrugada 1/2\"",
+  "Varilla Corrugada 5/8\"",
+  "Varilla Corrugada 1/4\"",
+  "Tubo PVC Sanitario 2\"",
+  "Tubo PVC Sanitario 3\"",
+  "Tubo PVC Sanitario 4\"",
+  "Tubo PVC Hidráulico 1/2\"",
+  "Tubo PVC Hidráulico 3/4\"",
+  "Tubo PVC Hidráulico 1\"",
+  "Puntillas con cabeza (Libras)",
+  "Puntillas sin cabeza (Libras)",
+  "Pintura Vinilo Tipo 1 (Cuñete)",
+  "Pintura Vinilo Tipo 2 (Cuñete)",
+  "Pintura Esmalte Sintético (Galón)",
+  "Estuco Plástico (Cuñete)",
+  "Estuco en Polvo (Bulto)",
+  "Pegacor / Pegante cerámico (Bulto)",
+  "Cerámica / Porcelanato (Caja)",
+  "Malla Electrosoldada",
+  "Alambre Negro (Rollo/Kg)",
+  "Teja de Zinc",
+  "Teja de Fibrocemento (Eternit)",
+  "Pago de Nómina (Maestro/Ayudante)",
+  "Pago de Servicios Públicos",
+  "Transporte / Fletes",
+  "Otros"
+];
+
 const obraForm = ref({ titulo: '', presupuesto_inicial: '' })
-const gastoForm = ref({ concepto: '', categoria: 'MATERIALES', monto: '', soporte_url: '' })
+const gastoForm = ref({ concepto: '', cantidad: 1, categoria: 'MATERIALES', monto: '', soporte_url: '' })
 const fileToUpload = ref(null)
 const uploading = ref(false)
 
@@ -225,6 +273,7 @@ const registrarGasto = async () => {
     
     // Reset form
     gastoForm.value.concepto = ''
+    gastoForm.value.cantidad = 1
     gastoForm.value.monto = ''
     fileToUpload.value = null
     document.querySelector('input[type="file"]').value = ''
