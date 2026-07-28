@@ -27,7 +27,7 @@
         </div>
         <div>
           <p class="stat-label">Citas y Asesorías</p>
-          <p class="stat-value">Ninguna</p>
+          <p class="stat-value">{{ citasUser.length > 0 ? citasUser.length + ' Activas' : 'Ninguna' }}</p>
         </div>
       </div>
     </div>
@@ -193,14 +193,22 @@
           <h3 class="modal-title">
             <span v-if="modalActivo === 'favoritos'">No hay Favoritos</span>
             <span v-if="modalActivo === 'cotizaciones'">Aún no has cotizado</span>
-            <span v-if="modalActivo === 'citas'">Sin citas agendadas</span>
+            <span v-if="modalActivo === 'citas' && citasUser.length === 0">Sin citas agendadas</span>
+            <span v-if="modalActivo === 'citas' && citasUser.length > 0">Tus Citas Agendadas</span>
           </h3>
           
-          <p class="modal-description">
+          <p class="modal-description" v-if="modalActivo !== 'citas' || citasUser.length === 0">
             <span v-if="modalActivo === 'favoritos'">Parece que aún no has guardado ninguna propiedad. Explora nuestro catálogo y marca las que te gusten para guardarlas aquí.</span>
             <span v-if="modalActivo === 'cotizaciones'">Cuando realices una cotización en nuestra plataforma, podrás guardarla y aparecerá en este panel.</span>
             <span v-if="modalActivo === 'citas'">Si solicitas una asesoría por videollamada o visita presencial, el recordatorio aparecerá en este calendario.</span>
           </p>
+
+          <div v-if="modalActivo === 'citas' && citasUser.length > 0" class="text-left space-y-3 mb-6 max-h-60 overflow-y-auto pr-2">
+            <div v-for="cita in citasUser" :key="cita._id" class="p-3 border border-slate-200 rounded-lg shadow-sm bg-slate-50">
+              <p class="font-bold text-slate-800 text-sm">🗓️ {{ new Date(cita.fecha_hora).toLocaleString('es-CO') }}</p>
+              <p class="text-xs text-slate-500 mt-1">Estado: <span class="font-bold text-[#003366]">{{ cita.estado }}</span></p>
+            </div>
+          </div>
 
           <router-link v-if="modalActivo === 'favoritos'" to="/" class="btn-modal">Explorar Catálogo</router-link>
           <router-link v-if="modalActivo === 'cotizaciones'" to="/dashboard/cotizador" class="btn-modal">Ir al Cotizador</router-link>
@@ -212,10 +220,25 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import api from '../services/api'
 
 const presupuestoSlider = ref(150000000)
 const modalActivo = ref(null)
+const citasUser = ref([])
+
+const cargarCitas = async () => {
+  try {
+    const { data } = await api.get('/citas')
+    citasUser.value = data
+  } catch (error) {
+    console.error("Error al cargar las citas:", error)
+  }
+}
+
+onMounted(() => {
+  cargarCitas()
+})
 
 const abrirModal = (tipo) => {
   modalActivo.value = tipo
