@@ -64,7 +64,6 @@
         <div class="bg-slate-100 p-6 rounded-lg mb-8">
           <h4 class="font-bold mb-4 text-slate-800">Registrar Nuevo Gasto</h4>
           <form @submit.prevent="registrarGasto" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
             <div class="md:col-span-2">
               <label class="block text-sm mb-1 font-semibold">Concepto / Ítem de Inventario</label>
               <input v-model="gastoForm.concepto" list="materiales-list" required type="text" class="w-full p-2 rounded border border-slate-300" placeholder="Buscar o escribir concepto...">
@@ -72,20 +71,20 @@
                 <option v-for="mat in listaMateriales" :key="mat" :value="mat"></option>
               </datalist>
             </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            <div>
-              <label class="block text-sm mb-1 font-semibold">Cantidad</label>
-              <input v-model="gastoForm.cantidad" required type="number" min="0.1" step="any" class="w-full p-2 rounded border border-slate-300" placeholder="Ej: 10">
+            <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-sm mb-1 font-semibold">Cantidad</label>
+                <input v-model="gastoForm.cantidad" required type="number" min="0.1" step="any" class="w-full p-2 rounded border border-slate-300" placeholder="Ej: 10">
+              </div>
+              <div>
+                <label class="block text-sm mb-1 font-semibold">Valor Unitario</label>
+                <input v-model="precioUnitarioInput" @input="calcularTotal" required type="number" min="0" step="any" class="w-full p-2 rounded border border-slate-300" placeholder="Costo por unidad">
+              </div>
+              <div>
+                <label class="block text-sm mb-1 font-semibold">Precio Total</label>
+                <input v-model="gastoForm.monto" readonly required type="number" class="w-full p-2 rounded border border-slate-300 bg-slate-100 font-bold text-slate-700" placeholder="Costo total">
+              </div>
             </div>
-            <div>
-              <label class="block text-sm mb-1 font-semibold">Valor Unitario</label>
-              <input v-model="precioUnitarioInput" @input="calcularTotal" required type="number" min="0" step="any" class="w-full p-2 rounded border border-slate-300" placeholder="Costo por unidad">
-            </div>
-            <div>
-              <label class="block text-sm mb-1 font-semibold">Precio Total</label>
-              <input v-model="gastoForm.monto" readonly required type="number" class="w-full p-2 rounded border border-slate-300 bg-slate-100 font-bold text-slate-700" placeholder="Costo total">
-            </div>
-          </div>
             <div>
               <label class="block text-sm mb-1 font-semibold">Categoría</label>
               <select v-model="gastoForm.categoria" required class="w-full p-2 rounded border border-slate-300">
@@ -96,16 +95,12 @@
               </select>
             </div>
             <div>
-              <label class="block text-sm mb-1 font-semibold">Precio Total (Monto Exacto)</label>
-              <input v-model="gastoForm.monto" required type="number" class="w-full p-2 rounded border border-slate-300" placeholder="Costo total de la compra">
-            </div>
-            <div>
               <label class="block text-sm mb-1 font-semibold">Soporte PDF/Foto (Opcional)</label>
-              <input type="file" @change="handleFileUpload" accept=".pdf,image/*" class="w-full p-1 text-sm">
+              <input type="file" @change="handleFileUpload" accept="image/*,application/pdf" class="w-full text-sm text-slate-500">
             </div>
-            <div class="md:col-span-2 flex justify-end mt-2">
-              <button type="submit" :disabled="uploading" class="bg-emerald-600 text-white px-6 py-2 rounded font-bold hover:bg-emerald-700 disabled:opacity-50">
-                {{ uploading ? 'Subiendo archivo...' : 'Añadir al Libro Mayor' }}
+            <div class="md:col-span-2 mt-4 text-right">
+              <button type="submit" :disabled="uploading" class="bg-emerald-600 text-white font-bold py-2 px-6 rounded shadow hover:bg-emerald-700 disabled:opacity-50">
+                {{ uploading ? 'Subiendo soporte...' : 'Añadir al Libro Mayor' }}
               </button>
             </div>
           </form>
