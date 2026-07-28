@@ -76,12 +76,9 @@ const agendar = async () => {
     const fechaHora = new Date(`${form.value.fecha}T${form.value.hora.toString().padStart(2, '0')}:00:00`)
     
     await api.post('/citas', { fecha_hora: fechaHora.toISOString() })
-    successMsg.value = '¡Cita agendada con éxito! Te hemos enviado un correo con los detalles.'
+    successMsg.value = `¡Cita agendada con éxito para el ${fechaHora.toLocaleString()}! Te hemos enviado un recordatorio al correo.`
     form.value.fecha = ''
     form.value.hora = ''
-    setTimeout(() => {
-      router.push('/dashboard')
-    }, 2000)
   } catch (error) {
     errorMsg.value = error.response?.data?.message || 'Error al agendar la cita. Es posible que el horario esté ocupado.'
   } finally {

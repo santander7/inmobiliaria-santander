@@ -20,11 +20,8 @@ exports.crearCita = async (req, res) => {
       return res.status(400).json({ message: 'No puedes agendar citas en el pasado.' });
     }
 
-    // 2. Validar Horario Laboral (8am a 6pm, hora local estimada)
-    const hora = fecha.getHours();
-    if (hora < 8 || hora >= 18) {
-      return res.status(400).json({ message: 'El horario de atención es de 8:00 AM a 6:00 PM.' });
-    }
+    // 2. Validar Horario Laboral (Comentado porque en servidores UTC causa problemas de zona horaria)
+    // El frontend ya restringe el select de 8:00 AM a 5:00 PM.
 
     // 3. Validar duración exacta y evitar reservas cruzadas (1 hora exacta)
     // Redondear a la hora en punto para facilitar validación (ej. 10:00:00)
