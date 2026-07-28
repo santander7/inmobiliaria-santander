@@ -38,7 +38,7 @@
           
           <!-- Acciones de Usuario -->
           <div class="user-actions">
-            <button v-if="authStore.user?.role === 'admin'" @click="toggleView" class="btn-toggle-view">
+            <button v-if="authStore.user?.role === 'ADMIN'" @click="toggleView" class="btn-toggle-view">
               {{ isViewingAsAdmin ? '👁️ Vista Cliente' : '🛡️ Vista Admin' }}
             </button>
             <div class="user-info">
