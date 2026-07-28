@@ -65,16 +65,27 @@
           <h4 class="font-bold mb-4 text-slate-800">Registrar Nuevo Gasto</h4>
           <form @submit.prevent="registrarGasto" class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
+            <div class="md:col-span-2">
               <label class="block text-sm mb-1 font-semibold">Concepto / Ítem de Inventario</label>
               <input v-model="gastoForm.concepto" list="materiales-list" required type="text" class="w-full p-2 rounded border border-slate-300" placeholder="Buscar o escribir concepto...">
               <datalist id="materiales-list">
                 <option v-for="mat in listaMateriales" :key="mat" :value="mat"></option>
               </datalist>
             </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div>
               <label class="block text-sm mb-1 font-semibold">Cantidad</label>
               <input v-model="gastoForm.cantidad" required type="number" min="0.1" step="any" class="w-full p-2 rounded border border-slate-300" placeholder="Ej: 10">
             </div>
+            <div>
+              <label class="block text-sm mb-1 font-semibold">Valor Unitario</label>
+              <input v-model="precioUnitarioInput" @input="calcularTotal" required type="number" min="0" step="any" class="w-full p-2 rounded border border-slate-300" placeholder="Costo por unidad">
+            </div>
+            <div>
+              <label class="block text-sm mb-1 font-semibold">Precio Total</label>
+              <input v-model="gastoForm.monto" readonly required type="number" class="w-full p-2 rounded border border-slate-300 bg-slate-100 font-bold text-slate-700" placeholder="Costo total">
+            </div>
+          </div>
             <div>
               <label class="block text-sm mb-1 font-semibold">Categoría</label>
               <select v-model="gastoForm.categoria" required class="w-full p-2 rounded border border-slate-300">
@@ -109,8 +120,9 @@
                 <th class="p-3 border-b">Fecha</th>
                 <th class="p-3 border-b">Concepto</th>
                 <th class="p-3 border-b text-center">Cant.</th>
+                <th class="p-3 border-b text-right">V. Unitario</th>
                 <th class="p-3 border-b">Categoría</th>
-                <th class="p-3 border-b text-right">Monto</th>
+                <th class="p-3 border-b text-right">Monto Total</th>
                 <th class="p-3 border-b text-center">Soporte</th>
                 <th class="p-3 border-b text-center">Acciones</th>
               </tr>
@@ -120,6 +132,7 @@
                 <td class="p-3 text-sm">{{ new Date(g.fecha).toLocaleDateString() }}</td>
                 <td class="p-3 font-medium">{{ g.concepto }}</td>
                 <td class="p-3 text-center text-sm font-bold">{{ g.cantidad || 1 }}</td>
+                <td class="p-3 text-right font-medium text-slate-500">{{ formatCurrency(g.monto / (g.cantidad || 1)) }}</td>
                 <td class="p-3 text-xs"><span class="bg-slate-200 px-2 py-1 rounded">{{ g.categoria }}</span></td>
                 <td class="p-3 text-right font-bold text-red-600">{{ formatCurrency(g.monto) }}</td>
                 <td class="p-3 text-center">
@@ -132,7 +145,7 @@
                 </td>
               </tr>
               <tr v-if="obraSeleccionada.gastos.length === 0">
-                <td colspan="7" class="p-6 text-center text-slate-500">No hay gastos registrados aún.</td>
+                <td colspan="8" class="p-6 text-center text-slate-500">No hay gastos registrados aún.</td>
               </tr>
             </tbody>
           </table>
@@ -222,40 +235,85 @@ const showModalEditarObra = ref(false)
 const showModalEditarGasto = ref(false)
 const obraSeleccionada = ref(null)
 
+const precioUnitarioInput = ref('')
+
+const calcularTotal = () => {
+  if (precioUnitarioInput.value && gastoForm.value.cantidad) {
+    gastoForm.value.monto = precioUnitarioInput.value * gastoForm.value.cantidad
+  }
+}
+
+import { watch } from 'vue'
+watch(() => gastoForm.value.cantidad, () => {
+  calcularTotal()
+})
+
 const listaMateriales = [
   "Cemento Gris (Bulto 50kg)",
   "Cemento Blanco (Bulto 40kg)",
   "Arena de Peña (Volquetada)",
   "Arena de Río (Volquetada)",
+  "Arena Fina (Bulto)",
   "Tierra para jardín (Volquetada)",
-  "Balastro (Volquetada)",
-  "Ladrillo Prensado",
-  "Ladrillo Farol",
-  "Bloque de Cemento",
+  "Balastro / Triturado (Volquetada)",
+  "Ladrillo Prensado (Unidad)",
+  "Ladrillo Farol (Unidad)",
+  "Bloque Número 4",
+  "Bloque Número 5",
+  "Varilla Corrugada 1/4\"",
   "Varilla Corrugada 3/8\"",
   "Varilla Corrugada 1/2\"",
   "Varilla Corrugada 5/8\"",
-  "Varilla Corrugada 1/4\"",
+  "Varilla Corrugada 3/4\"",
+  "Malla Electrosoldada",
+  "Alambre Negro (Rollo/Kg)",
+  "Alambre Dulce (Rollo)",
   "Tubo PVC Sanitario 2\"",
   "Tubo PVC Sanitario 3\"",
   "Tubo PVC Sanitario 4\"",
-  "Tubo PVC Hidráulico 1/2\"",
-  "Tubo PVC Hidráulico 3/4\"",
-  "Tubo PVC Hidráulico 1\"",
+  "Tubo PVC Sanitario 6\"",
+  "Tubo PVC Presión 1/2\"",
+  "Tubo PVC Presión 3/4\"",
+  "Tubo PVC Presión 1\"",
+  "Tubo PVC Presión 1 1/2\"",
+  "Tubo PVC Presión 2\"",
+  "Tubería Eléctrica Conduit (Tubo)",
+  "Cable de Cobre N° 12 (Rollo)",
+  "Cable de Cobre N° 10 (Rollo)",
+  "Cable de Cobre N° 14 (Rollo)",
+  "Cinta Aislante",
+  "Cinta Teflón",
+  "Interruptor Eléctrico",
+  "Tomacorriente",
+  "Bombillo / Lámpara LED",
   "Puntillas con cabeza (Libras)",
   "Puntillas sin cabeza (Libras)",
+  "Clavos para zinc (Libras)",
+  "Listón de Madera (Unidad)",
+  "Tabla de Madera (Unidad)",
   "Pintura Vinilo Tipo 1 (Cuñete)",
+  "Pintura Vinilo Tipo 1 (Galón)",
   "Pintura Vinilo Tipo 2 (Cuñete)",
+  "Pintura Vinilo Tipo 2 (Galón)",
   "Pintura Esmalte Sintético (Galón)",
+  "Anticorrosivo (Galón)",
   "Estuco Plástico (Cuñete)",
-  "Estuco en Polvo (Bulto)",
+  "Estuco en Polvo (Bulto 25kg)",
   "Pegacor / Pegante cerámico (Bulto)",
   "Cerámica / Porcelanato (Caja)",
-  "Malla Electrosoldada",
-  "Alambre Negro (Rollo/Kg)",
   "Teja de Zinc",
   "Teja de Fibrocemento (Eternit)",
-  "Pago de Nómina (Maestro/Ayudante)",
+  "Soldadura Líquida PVC (1/4 Galón)",
+  "Limpiador PVC",
+  "Pegante para Madera (Colbón)",
+  "Sika / Impermeabilizante (Cuñete/Galón)",
+  "Thinner (Galón)",
+  "Disco de Corte Metales",
+  "Disco de Corte Diamantado",
+  "Alquiler de Mezcladora (Días)",
+  "Alquiler de Andamios (Secciones)",
+  "Pago de Nómina (Maestro/Oficial)",
+  "Pago de Nómina (Ayudante)",
   "Pago de Servicios Públicos",
   "Transporte / Fletes",
   "Otros"
@@ -365,6 +423,7 @@ const registrarGasto = async () => {
     gastoForm.value.concepto = ''
     gastoForm.value.cantidad = 1
     gastoForm.value.monto = ''
+    precioUnitarioInput.value = ''
     fileToUpload.value = null
     document.querySelector('input[type="file"]').value = ''
   } catch (error) {
