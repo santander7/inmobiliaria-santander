@@ -16,12 +16,13 @@
         <div class="space-y-4">
           <div v-for="lead in leadsPendientes" :key="lead._id" class="kanban-card bg-white p-4 rounded-lg shadow-sm border border-slate-100 hover:shadow-md transition">
             <p class="text-xs text-slate-400 mb-1">{{ new Date(lead.createdAt).toLocaleDateString() }}</p>
-            <h4 class="font-bold text-slate-800">{{ lead.user?.nombre || 'Usuario Desconocido' }}</h4>
-            <p class="text-sm text-slate-600 mb-2">📞 {{ lead.user?.telefono || 'Sin teléfono' }}</p>
-            <p class="text-xs bg-slate-100 p-2 rounded text-slate-700 mb-3 font-mono">Tipo: {{ lead.tipo }}</p>
+            <h4 class="font-bold text-slate-800">{{ lead.user?.nombre || 'Visitante/Invitado' }}</h4>
+            <p class="text-sm text-slate-600 mb-2">📞 {{ lead.user?.telefono || 'No proporcionó' }}</p>
+            <p class="text-xs bg-slate-100 p-2 rounded text-slate-700 mb-3 font-mono">Tipo: {{ lead.tipo_proyecto }}</p>
+            <p class="text-xs text-slate-500 mb-3 font-bold text-emerald-600">Pto. Cotizado: ${{ (lead.costo_calculado || 0).toLocaleString('es-CO') }}</p>
             
             <div class="flex gap-2">
-              <button @click="cambiarEstado(lead._id, 'EN_PROCESO')" class="w-full text-xs font-bold bg-amber-100 text-amber-700 py-2 rounded hover:bg-amber-200">
+              <button @click="cambiarEstado(lead._id, 'CONTACTADO')" class="w-full text-xs font-bold bg-amber-100 text-amber-700 py-2 rounded hover:bg-amber-200">
                 Mover a En Proceso ➡️
               </button>
             </div>
@@ -37,12 +38,13 @@
         </h3>
         <div class="space-y-4">
           <div v-for="lead in leadsEnProceso" :key="lead._id" class="kanban-card bg-white p-4 rounded-lg shadow-sm border border-slate-100 hover:shadow-md transition">
-            <h4 class="font-bold text-slate-800">{{ lead.user?.nombre || 'Usuario Desconocido' }}</h4>
-            <p class="text-sm text-slate-600 mb-2">📞 {{ lead.user?.telefono || 'Sin teléfono' }}</p>
-            <p class="text-xs bg-slate-100 p-2 rounded text-slate-700 mb-3 font-mono">Tipo: {{ lead.tipo }}</p>
+            <h4 class="font-bold text-slate-800">{{ lead.user?.nombre || 'Visitante/Invitado' }}</h4>
+            <p class="text-sm text-slate-600 mb-2">📞 {{ lead.user?.telefono || 'No proporcionó' }}</p>
+            <p class="text-xs bg-slate-100 p-2 rounded text-slate-700 mb-3 font-mono">Tipo: {{ lead.tipo_proyecto }}</p>
+            <p class="text-xs text-slate-500 mb-3 font-bold text-emerald-600">Pto. Cotizado: ${{ (lead.costo_calculado || 0).toLocaleString('es-CO') }}</p>
             
             <div class="flex gap-2">
-              <button @click="cambiarEstado(lead._id, 'FINALIZADO')" class="w-full text-xs font-bold bg-emerald-100 text-emerald-700 py-2 rounded hover:bg-emerald-200">
+              <button @click="cambiarEstado(lead._id, 'CERRADO')" class="w-full text-xs font-bold bg-emerald-100 text-emerald-700 py-2 rounded hover:bg-emerald-200">
                 Cerrar Venta (Éxito) ✅
               </button>
             </div>
@@ -58,7 +60,7 @@
         </h3>
         <div class="space-y-4">
           <div v-for="lead in leadsFinalizados" :key="lead._id" class="kanban-card bg-white p-4 rounded-lg shadow-sm border border-slate-100">
-            <h4 class="font-bold line-through text-slate-500">{{ lead.user?.nombre || 'Usuario Desconocido' }}</h4>
+            <h4 class="font-bold line-through text-slate-500">{{ lead.user?.nombre || 'Visitante/Invitado' }}</h4>
             <p class="text-xs text-slate-400 mt-2">Venta / Proceso completado.</p>
           </div>
         </div>
@@ -73,9 +75,9 @@ import api from '../services/api'
 
 const leads = ref([])
 
-const leadsPendientes = computed(() => leads.value.filter(l => l.estado === 'PENDIENTE'))
-const leadsEnProceso = computed(() => leads.value.filter(l => l.estado === 'EN_PROCESO'))
-const leadsFinalizados = computed(() => leads.value.filter(l => l.estado === 'FINALIZADO'))
+const leadsPendientes = computed(() => leads.value.filter(l => l.estado === 'PRELIMINAR'))
+const leadsEnProceso = computed(() => leads.value.filter(l => l.estado === 'CONTACTADO'))
+const leadsFinalizados = computed(() => leads.value.filter(l => l.estado === 'CERRADO'))
 
 const cargarLeads = async () => {
   try {

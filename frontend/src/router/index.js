@@ -66,6 +66,18 @@ const router = createRouter({
           meta: { isAdmin: true }
         },
         {
+          path: 'admin/crm',
+          name: 'AdminCRM',
+          component: () => import('../views/CrmDashboard.vue'),
+          meta: { isAdmin: true }
+        },
+        {
+          path: 'admin/citas',
+          name: 'Gestión de Citas',
+          component: () => import('../views/AdminCitas.vue'),
+          meta: { isAdmin: true }
+        },
+        {
           path: 'admin/erp',
           name: 'ERP Financiero & Obra',
           component: () => import('../views/ErpFinanciero.vue'),
