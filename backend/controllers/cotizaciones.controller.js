@@ -136,7 +136,11 @@ exports.crearCotizacion = async (req, res) => {
 
 exports.obtenerCotizaciones = async (req, res) => {
   try {
-    const cotizaciones = await Cotizacion.find().sort({ createdAt: -1 });
+    let query = {};
+    if (req.userRole !== 'ADMIN') {
+      query.user = req.userId;
+    }
+    const cotizaciones = await Cotizacion.find(query).sort({ createdAt: -1 });
     res.json(cotizaciones);
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener cotizaciones', error: error.message });

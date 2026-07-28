@@ -21,11 +21,11 @@
     </div>
 
     <div class="modules-grid">
-      <!-- Chart.js Mockup Container -->
+      <!-- Chart.js Real Integration -->
       <div class="module-card">
-        <h3 class="module-title">Visitas Mensuales a Propiedades</h3>
-        <div class="chart-mockup">
-          <p class="chart-mockup-text">Aquí se integrará el gráfico de Chart.js</p>
+        <h3 class="module-title">Visitas Mensuales a Propiedades (Miles)</h3>
+        <div class="chart-container">
+          <Bar v-if="chartData.labels" :data="chartData" :options="chartOptions" />
         </div>
       </div>
 
@@ -37,8 +37,8 @@
             <span class="action-text">Añadir Nueva Propiedad</span>
             <span class="action-icon icon-primary">+</span>
           </button>
-          <button class="action-btn action-blue">
-            <span class="action-text">Revisar Solicitudes</span>
+          <button @click="$router.push('/dashboard/admin/crm')" class="action-btn action-blue">
+            <span class="action-text">Revisar Gestor CRM</span>
             <span class="action-icon icon-blue">5</span>
           </button>
           <button @click="$router.push('/dashboard/admin/usuarios')" class="action-btn action-orange">
@@ -55,6 +55,52 @@
 
   </div>
 </template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale
+} from 'chart.js'
+import { Bar } from 'vue-chartjs'
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+
+const chartData = ref({
+  labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+  datasets: [
+    {
+      label: 'Visitas Orgánicas',
+      backgroundColor: '#003366',
+      borderRadius: 4,
+      data: [12.5, 14.2, 11.8, 16.5, 19.2, 22.4]
+    },
+    {
+      label: 'Tráfico de Redes',
+      backgroundColor: '#10B981',
+      borderRadius: 4,
+      data: [8.1, 9.4, 12.0, 14.2, 15.8, 18.5]
+    }
+  ]
+})
+
+const chartOptions = ref({
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { position: 'bottom' }
+  },
+  scales: {
+    y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+    x: { grid: { display: false } }
+  }
+})
+</script>
 
 <style scoped>
 .admin-dashboard {
@@ -98,11 +144,8 @@
   @apply font-bold text-lg text-dark mb-4;
 }
 
-.chart-mockup {
-  @apply h-64 flex items-center justify-center bg-gray-50 rounded-xl border border-dashed border-gray-200;
-}
-.chart-mockup-text {
-  @apply text-gray-400 font-medium text-sm;
+.chart-container {
+  @apply h-72 w-full mt-4;
 }
 
 .actions-list {

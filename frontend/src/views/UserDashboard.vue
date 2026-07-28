@@ -18,7 +18,7 @@
         </div>
         <div>
           <p class="stat-label">Cotizaciones</p>
-          <p class="stat-value">0 Activas</p>
+          <p class="stat-value">{{ cotizacionesUser.length > 0 ? cotizacionesUser.length + ' Guardadas' : '0 Activas' }}</p>
         </div>
       </div>
       <div @click="abrirModal('citas')" class="stat-card group">
@@ -192,16 +192,25 @@
           
           <h3 class="modal-title">
             <span v-if="modalActivo === 'favoritos'">No hay Favoritos</span>
-            <span v-if="modalActivo === 'cotizaciones'">Aún no has cotizado</span>
+            <span v-if="modalActivo === 'cotizaciones' && cotizacionesUser.length === 0">Aún no has cotizado</span>
+            <span v-if="modalActivo === 'cotizaciones' && cotizacionesUser.length > 0">Tus Cotizaciones Previas</span>
             <span v-if="modalActivo === 'citas' && citasUser.length === 0">Sin citas agendadas</span>
             <span v-if="modalActivo === 'citas' && citasUser.length > 0">Tus Citas Agendadas</span>
           </h3>
           
-          <p class="modal-description" v-if="modalActivo !== 'citas' || citasUser.length === 0">
+          <p class="modal-description" v-if="(modalActivo === 'favoritos') || (modalActivo === 'cotizaciones' && cotizacionesUser.length === 0) || (modalActivo === 'citas' && citasUser.length === 0)">
             <span v-if="modalActivo === 'favoritos'">Parece que aún no has guardado ninguna propiedad. Explora nuestro catálogo y marca las que te gusten para guardarlas aquí.</span>
             <span v-if="modalActivo === 'cotizaciones'">Cuando realices una cotización en nuestra plataforma, podrás guardarla y aparecerá en este panel.</span>
             <span v-if="modalActivo === 'citas'">Si solicitas una asesoría por videollamada o visita presencial, el recordatorio aparecerá en este calendario.</span>
           </p>
+
+          <div v-if="modalActivo === 'cotizaciones' && cotizacionesUser.length > 0" class="text-left space-y-3 mb-6 max-h-60 overflow-y-auto pr-2">
+            <div v-for="cot in cotizacionesUser" :key="cot._id" class="p-3 border border-slate-200 rounded-lg shadow-sm bg-slate-50">
+              <p class="font-bold text-slate-800 text-sm">🏗️ Proyecto: {{ cot.tipo_proyecto.replace(/_/g, ' ') }}</p>
+              <p class="text-xs text-slate-500 mt-1">Total Calculado: <span class="font-bold text-emerald-600">{{ formatCurrency(cot.costo_calculado) }}</span></p>
+              <p class="text-xs text-slate-500">Fecha: {{ new Date(cot.createdAt).toLocaleDateString('es-CO') }}</p>
+            </div>
+          </div>
 
           <div v-if="modalActivo === 'citas' && citasUser.length > 0" class="text-left space-y-3 mb-6 max-h-60 overflow-y-auto pr-2">
             <div v-for="cita in citasUser" :key="cita._id" class="p-3 border border-slate-200 rounded-lg shadow-sm bg-slate-50">
@@ -226,18 +235,22 @@ import api from '../services/api'
 const presupuestoSlider = ref(150000000)
 const modalActivo = ref(null)
 const citasUser = ref([])
+const cotizacionesUser = ref([])
 
-const cargarCitas = async () => {
+const cargarDatos = async () => {
   try {
-    const { data } = await api.get('/citas')
-    citasUser.value = data
+    const { data: citas } = await api.get('/citas')
+    citasUser.value = citas
+
+    const { data: cotizaciones } = await api.get('/cotizaciones')
+    cotizacionesUser.value = cotizaciones
   } catch (error) {
-    console.error("Error al cargar las citas:", error)
+    console.error("Error al cargar datos:", error)
   }
 }
 
 onMounted(() => {
-  cargarCitas()
+  cargarDatos()
 })
 
 const abrirModal = (tipo) => {

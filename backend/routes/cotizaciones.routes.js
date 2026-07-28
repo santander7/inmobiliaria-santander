@@ -6,7 +6,7 @@ const { verifyToken, isAdmin } = require('../middleware/auth');
 // Crear cotización inteligente
 router.post('/', cotizacionesController.crearCotizacion);
 
-// Panel Admin: Ver todas las cotizaciones
-router.get('/', verifyToken, isAdmin, cotizacionesController.obtenerCotizaciones);
+// Obtener cotizaciones (Admin ve todas, Usuario ve las suyas)
+router.get('/', verifyToken, cotizacionesController.obtenerCotizaciones);
 
 module.exports = router;
